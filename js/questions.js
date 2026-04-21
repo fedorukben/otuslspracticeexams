@@ -1972,7 +1972,7 @@ const COURSES = {
   }
 };
 
-// Expand MATH 1010U banks with generated base questions and variants.
+// Expand MATH 1010U banks with generated base questions.
 // This keeps the question file maintainable while significantly increasing pool size.
 (function expandMathBanks() {
   const math = COURSES.math1010u;
@@ -1982,20 +1982,6 @@ const COURSES = {
     if (!Array.isArray(questions) || addCount <= 0) return;
     for (let i = 0; i < addCount; i++) {
       questions.push(makeQuestion(i));
-    }
-  }
-
-  function addVariants(questions, addCount, makeId) {
-    if (!Array.isArray(questions) || questions.length === 0 || addCount <= 0) return;
-    const base = questions.slice();
-    for (let i = 0; i < addCount; i++) {
-      const src = base[i % base.length];
-      const variantNo = Math.floor(i / base.length) + 2;
-      questions.push({
-        id: makeId(i),
-        topic: src.topic,
-        prompt: `${src.prompt} <em>(Variant ${variantNo})</em>`
-      });
     }
   }
 
@@ -2115,40 +2101,25 @@ const COURSES = {
     };
   });
 
-  // Midterms are renumbered below to M1-### and M2-###, so temporary IDs are fine.
-  addVariants(m1, 200, (i) => `m1-extra-${String(i + 1).padStart(3, "0")}`);
-  addVariants(m2, 200, (i) => `m2-extra-${String(i + 1).padStart(3, "0")}`);
-
-  // Final uses explicit FE numbering and is not renumbered later.
-  const feStart = Array.isArray(fe)
-    ? fe.reduce((max, q) => {
-      const match = String(q.id || "").match(/^FE-(\d+)$/);
-      if (!match) return max;
-      const n = parseInt(match[1], 10);
-      return Number.isFinite(n) ? Math.max(max, n) : max;
-    }, 0)
-    : 0;
-  addVariants(fe, 200, (i) => `FE-${String(feStart + i + 1).padStart(3, "0")}`);
 })();
 
-// Normalize midterm IDs to numeric-only scheme:
-// M1-001, M1-002, ... and M2-001, M2-002, ...
+// Normalize IDs to numeric-only scheme in one continuous sequence.
 Object.values(COURSES).forEach((course) => {
   const exams = (course && course.exams) || {};
   const m1 = exams.midterm1 && Array.isArray(exams.midterm1.questions) ? exams.midterm1.questions : null;
   const m2 = exams.midterm2 && Array.isArray(exams.midterm2.questions) ? exams.midterm2.questions : null;
+  const fe = exams.final && Array.isArray(exams.final.questions) ? exams.final.questions : null;
 
-  if (m1) {
-    m1.forEach((q, i) => {
-      q.id = `M1-${String(i + 1).padStart(3, "0")}`;
+  function renumber(questions, prefix) {
+    if (!questions) return;
+    questions.forEach((q, i) => {
+      q.id = `${prefix}-${String(i + 1).padStart(3, "0")}`;
     });
   }
 
-  if (m2) {
-    m2.forEach((q, i) => {
-      q.id = `M2-${String(i + 1).padStart(3, "0")}`;
-    });
-  }
+  renumber(m1, "M1");
+  renumber(m2, "M2");
+  renumber(fe, "FE");
 });
 
 /* =========================================================
