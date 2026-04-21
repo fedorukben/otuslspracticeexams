@@ -2199,6 +2199,74 @@ const COURSES = {
     }
   },
 
+  "math1020u": {
+    name: "MATH 1020U — Calculus II",
+    exams: {
+      "readiness": {
+        name: "Readiness Test",
+        topics: [
+          "calculus 1 final exam review"
+        ],
+        questions: []
+      },
+      "midterm1": {
+        name: "Midterm 1",
+        topics: [
+          "Ch3 — integration by parts",
+          "Ch3 — trig integration (powers of sin and cos)",
+          "Ch3 — trig substitution",
+          "Ch3 — partial fractions",
+          "Ch3 — integration strategy (multiple rules)",
+          "Ch3 — numerical integration (midpoint, trapezoid, Simpson, error bounds)",
+          "Ch3 — improper integrals",
+          "Ch2 — arclength",
+          "Ch2 — surface area of revolution",
+          "Ch2 — hydrostatic force",
+          "Ch2 — cardiac output",
+          "Ch2 — probability density functions (PDF)"
+        ],
+        questions: []
+      },
+      "midterm2": {
+        name: "Midterm 2",
+        topics: [
+          "differential equations — intro (order, linearity, IVP)",
+          "direction fields",
+          "euler's method",
+          "separable differential equations",
+          "applications — newton's law of cooling",
+          "applications — leaking tank",
+          "applications — smoke concentration in a room",
+          "parametric curves — derivatives and tangent lines",
+          "polar coordinates — petals, derivatives, area",
+          "multivariate functions — partial derivatives",
+          "multivariate functions — chain rule",
+          "vectors — dot product and length",
+          "gradient vector",
+          "multivariate optimization — critical points (3 variables)",
+          "directional derivatives"
+        ],
+        questions: []
+      },
+      "final": {
+        name: "Final Exam",
+        topics: [
+          "double integrals over rectangles",
+          "iterated integrals",
+          "double integrals over general regions",
+          "taylor and maclaurin series",
+          "taylor series applications and error formulas",
+          "sequences",
+          "series",
+          "ratio and root test",
+          "power series",
+          "geometric series"
+        ],
+        questions: []
+      }
+    }
+  },
+
   "stat2800u": {
     name: "STAT 2800U — Statistics for Engineering",
     exams: {
@@ -2221,6 +2289,310 @@ const COURSES = {
     }
   }
 };
+
+/** Round numeric values embedded in prompts (avoids float artifacts like 0.35000000000000003). */
+function formatDecimal(x, places) {
+  const p = typeof places === "number" ? places : 4;
+  if (typeof x !== "number" || !Number.isFinite(x)) return x;
+  return Number.parseFloat(x.toFixed(p));
+}
+
+// MATH 1020U — Midterm 1 bank (~same scale as MATH 1010 Midterm 1). Topics use Ch2/Ch3 prefixes for weighted sampling.
+(function buildMath1020Midterm1() {
+  const course = COURSES.math1020u;
+  if (!course || !course.exams || !course.exams.midterm1) return;
+  const qs = course.exams.midterm1.questions;
+  if (qs.length > 0) return;
+
+  const Ch3 = "Ch3";
+  const Ch2 = "Ch2";
+  let n = 0;
+
+  function add(topic, prompt) {
+    n += 1;
+    qs.push({
+      id: `m1020m1-${String(n).padStart(3, "0")}`,
+      topic,
+      prompt
+    });
+  }
+
+  function addMany(topic, count, makePrompt) {
+    for (let k = 0; k < count; k++) {
+      add(topic, makePrompt(k));
+    }
+  }
+
+  // Chapter 3 — 150 questions (~70% of 214)
+  addMany(`${Ch3} — integration by parts`, 22, (k) => {
+    const a = (k % 4) + 2;
+    const p = (k % 5) + 1;
+    return `Evaluate $\\displaystyle \\int x^{${p}} e^{${a}x}\\,dx$ using integration by parts (choose $u$ and $dv$).`;
+  });
+
+  addMany(`${Ch3} — trig integration (powers of sin and cos)`, 22, (k) => {
+    const m = (k % 4) + 2;
+    const r = (k % 3) + 2;
+    return `Evaluate $\\displaystyle \\int \\sin^{${m}} x \\cos^{${r}} x\\,dx$ using power-reduction or substitution appropriate to the parity of the powers.`;
+  });
+
+  addMany(`${Ch3} — trig substitution`, 22, (k) => {
+    const a = (k % 5) + 2;
+    const forms = [
+      `Evaluate $\\displaystyle \\int \\dfrac{x^2}{\\sqrt{${a * a}-x^2}}\\,dx$ using an appropriate trigonometric substitution.`,
+      `Evaluate $\\displaystyle \\int \\dfrac{1}{(x^2+${a * a})^{3/2}}\\,dx$ using a trigonometric substitution.`,
+      `Evaluate $\\displaystyle \\int \\dfrac{\\sqrt{x^2-${a * a}}}{x}\\,dx$ for $x>${a}$ using a trigonometric substitution.`
+    ];
+    return forms[k % forms.length];
+  });
+
+  addMany(`${Ch3} — partial fractions`, 21, (k) => {
+    const b = (k % 5) + 1;
+    const c = (k % 4) + 2;
+    return `Decompose $\\dfrac{2x+${b}}{(x-${c})(x+${b})}$ into partial fractions, then integrate.`;
+  });
+
+  addMany(`${Ch3} — integration strategy (multiple rules)`, 21, (k) => {
+    const a = (k % 3) + 2;
+    return `Outline a full strategy to evaluate $\\displaystyle \\int x\\sin(${a}x)e^{x}\\,dx$ (identify which rules apply and in what order).`;
+  });
+
+  addMany(`${Ch3} — numerical integration (midpoint, trapezoid, Simpson, error bounds)`, 21, (k) => {
+    const nsub = 4 + (k % 6);
+    const which = k % 3;
+    if (which === 0) {
+      return `For $\\displaystyle \\int_0^2 e^{-x^2}\\,dx$, write the midpoint rule with $n=${nsub}$ subintervals (give sample points and weights pattern).`;
+    }
+    if (which === 1) {
+      return `For $\\displaystyle \\int_1^3 \\ln x\\,dx$, write the trapezoidal rule with $n=${nsub}$ subintervals.`;
+    }
+    return `For $\\displaystyle \\int_0^\\pi \\sin x\\,dx$, write Simpson's rule with $n=${nsub}$ (assume $n$ is even). State the standard error bound formula for Simpson's rule in terms of $\\max|f^{(4)}|$.`;
+  });
+
+  addMany(`${Ch3} — improper integrals`, 21, (k) => {
+    const p = 2 + (k % 4);
+    const forms = [
+      `Determine whether $\\displaystyle \\int_1^\\infty \\dfrac{1}{x^{${p}}}\\,dx$ converges or diverges; evaluate if convergent.`,
+      `Determine whether $\\displaystyle \\int_0^1 \\dfrac{1}{x^{${p - 1}}}\\,dx$ converges or diverges.`,
+      `Evaluate $\\displaystyle \\int_{-\\infty}^\\infty \\dfrac{1}{1+x^{${p}}}\\,dx$ or show convergence/divergence using comparison.`
+    ];
+    return forms[k % forms.length];
+  });
+
+  // Chapter 2 — 64 questions (~30% of 214)
+  addMany(`${Ch2} — arclength`, 13, (k) => {
+    const c = (k % 4) + 1;
+    return `Set up the integral for the arclength of $y=x^{${c + 1}}-${c}x$ from $x=0$ to $x=2$.`;
+  });
+
+  addMany(`${Ch2} — surface area of revolution`, 13, (k) => {
+    const axis = k % 2 === 0 ? "$x$-axis" : "$y$-axis";
+    return `Set up the integral for the surface area obtained by revolving $y=\\sqrt{x+${(k % 3) + 1}}$ about the ${axis} on a suitable interval (state the interval).`;
+  });
+
+  addMany(`${Ch2} — hydrostatic force`, 13, (k) => {
+    const w = 3 + (k % 5);
+    return `A vertical dam panel has width $w(x)=${w}+0.${(k % 9)}x$ m at depth $x$ m below the water surface. Set up $\\displaystyle F=\\rho g\\int_0^{${4 + (k % 3)}} (\\text{depth})(\\text{width})\\,dx$ for hydrostatic force (leave $\\rho,g$ symbolic).`;
+  });
+
+  addMany(`${Ch2} — cardiac output`, 13, (k) => {
+    const T = 20 + (k % 8);
+    return `In a dye-dilution model, concentration is $c(t)$ mg/L over $[0,${T}]$. Write cardiac output as $Q=\\dfrac{A}{\\int_0^{${T}} c(t)\\,dt}$ where $A$ is total dye (mg). What units does $Q$ carry?`;
+  });
+
+  addMany(`${Ch2} — probability density functions (PDF)`, 12, (k) => {
+    const a = (k % 3) + 1;
+    const b = (k % 4) + 2;
+    const which = k % 2;
+    if (which === 0) {
+      return `For $f(x)=c x^{${a}}(1-x)^{${b}}$ on $[0,1]$, find $c$ so that $f$ is a valid PDF ($\\int_0^1 f=1$, $f\\ge 0$).`;
+    }
+    return `Verify whether $f(x)=\\dfrac{1}{${b}}(x-${a})$ on $[${a},${a + b}]$ can be a PDF (check non-negativity and integral).`;
+  });
+})();
+
+// MATH 1020U — Midterm 2: evenly-sized topic buckets for even-by-topic sampling in exam.js.
+(function buildMath1020Midterm2() {
+  const course = COURSES.math1020u;
+  if (!course || !course.exams || !course.exams.midterm2) return;
+  const qs = course.exams.midterm2.questions;
+  if (qs.length > 0) return;
+
+  const perTopic = 15;
+  let n = 0;
+
+  function push(topic, prompt) {
+    n += 1;
+    qs.push({
+      id: `m1020m2-${String(n).padStart(3, "0")}`,
+      topic,
+      prompt
+    });
+  }
+
+  function addBlock(topic, makePrompt) {
+    for (let k = 0; k < perTopic; k++) {
+      push(topic, makePrompt(k));
+    }
+  }
+
+  addBlock("differential equations — intro (order, linearity, IVP)", (k) => {
+    const a = (k % 3) + 1;
+    return `Classify the ODE $y''+${a}y'+${a + 1}y=x e^{x}$: state its <em>order</em>, whether it is <em>linear</em>, and identify the homogeneous part.`;
+  });
+
+  addBlock("direction fields", (k) => {
+    const c = (k % 4) + 1;
+    return `For $y'=${c}x-y$, sketch the direction field idea at the point $(1,2)$: what slope should a short tangent segment have there?`;
+  });
+
+  addBlock("euler's method", (k) => {
+    const h = formatDecimal(0.1 + (k % 5) * 0.05, 2);
+    const x0 = 0;
+    const y0 = formatDecimal(1 + (k % 3) * 0.5, 2);
+    return `Use Euler's method with step $h=${h}$ to approximate $y(${x0}+h)$ for $y'=x^{2}+y$, $y(${x0})=${y0}$.`;
+  });
+
+  addBlock("separable differential equations", (k) => {
+    const a = (k % 4) + 1;
+    return `Solve the separable equation $\\dfrac{dy}{dx}=${a} x y$ (include a constant of integration).`;
+  });
+
+  addBlock("applications — newton's law of cooling", (k) => {
+    const k0 = formatDecimal(0.05 + (k % 5) * 0.01, 3);
+    const Tm = 20 + (k % 6);
+    return `A body obeys $\\dfrac{dT}{dt}=-${k0}(T-${Tm})$ with $T$ in $^{\\circ}$C. Interpret $${Tm}$ in the model and separate variables to express the general solution.`;
+  });
+
+  addBlock("applications — leaking tank", (k) => {
+    const c = formatDecimal(0.2 + (k % 7) * 0.05, 2);
+    return `A cylindrical tank leaks so $\\dfrac{dh}{dt}=-${c}\\sqrt{h}$ (m/h). Explain the physical meaning of the square-root dependence and separate variables.`;
+  });
+
+  addBlock("applications — smoke concentration in a room", (k) => {
+    const r = formatDecimal(0.1 + (k % 6) * 0.02, 3);
+    return `Room volume $V=${500 + k * 10}$ m$^3$. Smoke enters at rate proportional to outside concentration minus inside: model $\\dfrac{dC}{dt}=${r}(C_{\\text{out}}-C)$. Identify equilibrium concentration if $C_{\\text{out}}$ is constant.`;
+  });
+
+  addBlock("parametric curves — derivatives and tangent lines", (k) => {
+    const a = (k % 3) + 1;
+    return `For $x=t^{2}+${a}$, $y=t^{3}-t$, find $\\dfrac{dy}{dx}$ and the tangent line at $t=1$.`;
+  });
+
+  addBlock("polar coordinates — petals, derivatives, area", (k) => {
+    const m = 2 + (k % 4);
+    return `For $r=\\sin(${m}\\theta)$, find $\\dfrac{dr}{d\\theta}$, $\\dfrac{dy}{dx}$ in terms of $\\theta$, and set up the integral for the area of <em>one petal</em>.`;
+  });
+
+  addBlock("multivariate functions — partial derivatives", (k) => {
+    const b = (k % 3) + 1;
+    return `For $f(x,y,z)=x^{2}y+z^{3}-\\ln(${b}+y)$, compute $f_x$, $f_y$, and $f_z$ where defined.`;
+  });
+
+  addBlock("multivariate functions — chain rule", (k) => {
+    const a = (k % 4) + 2;
+    return `Let $z=x^{2}+y^{2}$, $x=t^{${a}}$, $y=\\sin t$. Find $\\dfrac{dz}{dt}$ using the multivariate chain rule.`;
+  });
+
+  addBlock("vectors — dot product and length", (k) => {
+    const p = (k % 5) + 1;
+    return `Let $\\mathbf{u}=\\langle ${p},-${p + 1},2\\rangle$ and $\\mathbf{v}=\\langle 1,${p},-${p}\\rangle$. Find $\\mathbf{u}\\cdot\\mathbf{v}$ and $\\|\\mathbf{u}\\|$.`;
+  });
+
+  addBlock("gradient vector", (k) => {
+    const c = (k % 4) + 1;
+    return `Find $\\nabla f$ at $(1,2)$ for $f(x,y)=x^{3}-c x y+y^{2}$.`;
+  });
+
+  addBlock("multivariate optimization — critical points (3 variables)", (k) => {
+    const d = (k % 3) + 1;
+    return `Find all critical points of $g(x,y,z)=x^{2}+y^{2}+z^{2}-2x-${d}y+4z$ by solving $\\nabla g=\\mathbf{0}$.`;
+  });
+
+  addBlock("directional derivatives", (k) => {
+    const ang = (k * 15) % 360;
+    return `For $f(x,y)=x^{2}y-y^{2}$ at $(2,1)$, find the directional derivative in the direction of angle $\\theta=${ang}^{\\circ}$ (use a <em>unit</em> direction vector).`;
+  });
+})();
+
+// MATH 1020U — Final bank (post-midterm content only).
+(function buildMath1020Final() {
+  const course = COURSES.math1020u;
+  if (!course || !course.exams || !course.exams.final) return;
+  const qs = course.exams.final.questions;
+  if (qs.length > 0) return;
+
+  const perTopic = 20; // 10 topics x 20 = 200 questions
+  let n = 0;
+
+  function push(topic, prompt) {
+    n += 1;
+    qs.push({
+      id: `m1020f-${String(n).padStart(3, "0")}`,
+      topic,
+      prompt
+    });
+  }
+
+  function addBlock(topic, makePrompt) {
+    for (let k = 0; k < perTopic; k++) {
+      push(topic, makePrompt(k));
+    }
+  }
+
+  addBlock("double integrals over rectangles", (k) => {
+    const a = (k % 4) + 1;
+    const b = (k % 5) + 2;
+    return `Evaluate $\\displaystyle \\int_{0}^{${a}}\\int_{0}^{${b}} (x+2y)\\,dy\\,dx$.`;
+  });
+
+  addBlock("iterated integrals", (k) => {
+    const a = (k % 3) + 2;
+    const b = (k % 4) + 1;
+    return `Evaluate the iterated integral $\\displaystyle \\int_{0}^{${a}}\\int_{x}^{x+${b}} (x-y)\\,dy\\,dx$.`;
+  });
+
+  addBlock("double integrals over general regions", (k) => {
+    const a = (k % 4) + 1;
+    return `Set up $\\iint_R (x+y)\\,dA$ over region $R$ bounded by $y=x^2$ and $y=x+${a}$ (do not necessarily evaluate).`;
+  });
+
+  addBlock("taylor and maclaurin series", (k) => {
+    const p = (k % 5) + 2;
+    return `Find the Maclaurin series up to and including the $x^${p}$ term for $f(x)=\\ln(1+x)$.`;
+  });
+
+  addBlock("taylor series applications and error formulas", (k) => {
+    const a = (k % 3) + 1;
+    return `Use a Taylor polynomial centered at $0$ to approximate $e^{${a / 10}}$ and state the Lagrange remainder term for degree 3.`;
+  });
+
+  addBlock("sequences", (k) => {
+    const a = (k % 5) + 1;
+    return `Determine whether the sequence $a_n=\\dfrac{${a}n+1}{n+${a}}$ converges, and find its limit if it exists.`;
+  });
+
+  addBlock("series", (k) => {
+    const p = (k % 4) + 1;
+    return `Determine convergence or divergence of $\\displaystyle \\sum_{n=1}^{\\infty} \\dfrac{1}{n^{${p + 1}}}$.`;
+  });
+
+  addBlock("ratio and root test", (k) => {
+    const a = (k % 4) + 2;
+    const b = (k % 3) + 1;
+    return `Use the ratio or root test to analyze $\\displaystyle \\sum_{n=1}^{\\infty} \\dfrac{(${a}n)!}{(${b}n)^n}\\,x^n$ for convergence behavior.`;
+  });
+
+  addBlock("power series", (k) => {
+    const a = (k % 3) + 1;
+    return `Find the radius and interval of convergence of $\\displaystyle \\sum_{n=0}^{\\infty} \\dfrac{(x-${a})^n}{n+1}$.`;
+  });
+
+  addBlock("geometric series", (k) => {
+    const a = (k % 4) + 2;
+    return `Determine whether $\\displaystyle \\sum_{n=0}^{\\infty} \\left(\\dfrac{x-${a}}{3}\\right)^n$ converges, and find its sum when it does.`;
+  });
+})();
 
 // Expand MATH 1010U banks with generated base questions.
 // This keeps the question file maintainable while significantly increasing pool size.
@@ -2297,7 +2669,7 @@ const COURSES = {
       "3.8 implicit differentiation": `For $x^2+xy+y^2=${a * b + 5}$, find $\\dfrac{dy}{dx}$.`,
       "3.9 logarithmic differentiation": `Use logarithmic differentiation for $y=\\left(\\dfrac{x+${a}}{x}\\right)^x$.`,
       "6.9 hyperbolic derivatives": `Differentiate $y=\\sinh(${a}x)-${b}\\cosh x$.`,
-      "4.1 related rates": `A sphere's radius grows at ${b / 10} cm/s. Find $\\dfrac{dV}{dt}$ when $r=${a}$.`,
+      "4.1 related rates": `A sphere's radius grows at ${formatDecimal(b / 10, 2)} cm/s. Find $\\dfrac{dV}{dt}$ when $r=${a}$.`,
       "4.2 linear approximation and differentials": `Use linearization at $a=${a * a}$ to approximate $\\sqrt{${a * a}+0.${b}}$.`,
       "4.3 min/max": `Find local extrema of $f(x)=x^3-${a}x^2+${b}$.`,
       "4.4 MVT": `Find all $c$ satisfying MVT for $f(x)=x^2-${a}x$ on $[0,${a + b}]$.`

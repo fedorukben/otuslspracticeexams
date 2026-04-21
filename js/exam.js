@@ -25,7 +25,15 @@
   const codeParam = params.get("code");
   let courseId = params.get("course");
   let examId = params.get("exam");
-  let count = parseInt(params.get("count") || "10", 10);
+  function defaultQuestionCountForExam(examKey) {
+    if (examKey === "final") return 15;
+    return 8;
+  }
+
+  let count = parseInt(
+    params.get("count") || String(defaultQuestionCountForExam(params.get("exam") || "")),
+    10
+  );
   let fixedQuestionIds = null;
 
   if (codeParam) {
@@ -49,7 +57,8 @@
     return;
   }
 
-  if (!exam.questions || exam.questions.length === 0) {
+  const initialPool = buildExamPool();
+  if (!initialPool || initialPool.length === 0) {
     showError("This exam doesn't have any questions in the bank yet.");
     return;
   }
@@ -134,6 +143,12 @@
   }
 
   function buildExamPool() {
+    if (courseId === "math1020u" && examId === "readiness") {
+      const calc1 = courses.math1010u;
+      const calc1Final = (calc1 && calc1.exams && calc1.exams.final && calc1.exams.final.questions) || [];
+      return calc1Final.slice();
+    }
+
     if (examId !== "final") return exam.questions.slice();
 
     const midterm1 = (course.exams && course.exams.midterm1 && course.exams.midterm1.questions) || [];
@@ -146,7 +161,51 @@
     if (examId === "final") {
       return sampleFinalComposite(n);
     }
+    if (courseId === "math1020u" && examId === "readiness") {
+      return sampleEvenByTopic(pool, n);
+    }
+    if (courseId === "math1020u" && examId === "midterm1") {
+      return sampleMath1020Midterm1(pool, n);
+    }
     return sampleWeighted(pool, n);
+  }
+
+  function sampleMath1020Midterm1(questions, n) {
+    const chapter3 = [];
+    const chapter2 = [];
+    questions.forEach((q) => {
+      const t = String(q.topic || "");
+      if (t.startsWith("Ch2")) chapter2.push(q);
+      else chapter3.push(q);
+    });
+
+    const targets = computeBucketTargets(n, {
+      chapter3: 0.7,
+      chapter2: 0.3
+    });
+
+    const selected = [];
+    const selectedIds = new Set();
+
+    [
+      { key: "chapter3", bank: chapter3 },
+      { key: "chapter2", bank: chapter2 }
+    ].forEach(({ key, bank }) => {
+      const picks = sample(bank, targets[key] || 0);
+      picks.forEach((q) => {
+        if (!selectedIds.has(q.id)) {
+          selected.push(q);
+          selectedIds.add(q.id);
+        }
+      });
+    });
+
+    if (selected.length < n) {
+      const leftovers = questions.filter((q) => !selectedIds.has(q.id));
+      sample(leftovers, n - selected.length).forEach((q) => selected.push(q));
+    }
+
+    return sample(selected, selected.length);
   }
 
   function sampleFinalComposite(n) {

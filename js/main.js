@@ -18,12 +18,38 @@
 
   const courses = window.COURSES || {};
 
+  function resetGeneratorFormToInitialState() {
+    courseSelect.selectedIndex = 0;
+    retrievalCodeInput.value = "";
+    formError.hidden = true;
+    formError.textContent = "";
+
+    examSelect.innerHTML = "";
+    const examPlaceholder = document.createElement("option");
+    examPlaceholder.value = "";
+    examPlaceholder.textContent = "Choose a course first";
+    examPlaceholder.disabled = true;
+    examPlaceholder.selected = true;
+    examSelect.appendChild(examPlaceholder);
+    examSelect.disabled = true;
+
+    countSelect.selectedIndex = 0;
+  }
+
   // Populate course dropdown
   Object.entries(courses).forEach(([id, course]) => {
     const opt = document.createElement("option");
     opt.value = id;
     opt.textContent = course.name;
     courseSelect.appendChild(opt);
+  });
+
+  resetGeneratorFormToInitialState();
+
+  window.addEventListener("pageshow", (ev) => {
+    if (ev.persisted) {
+      resetGeneratorFormToInitialState();
+    }
   });
 
   // When a course is chosen, populate its exams
@@ -52,6 +78,7 @@
     });
 
     examSelect.disabled = false;
+    countSelect.selectedIndex = 0;
   });
 
   // Handle submission
@@ -67,10 +94,10 @@
 
     const course = courseSelect.value;
     const exam = examSelect.value;
-    const count = countSelect.value || "10";
+    const count = countSelect.value;
 
-    if (!course || !exam) {
-      formError.textContent = "Please choose both a course and an exam.";
+    if (!course || !exam || !count) {
+      formError.textContent = "Please choose a course, an exam, and a question count.";
       formError.hidden = false;
       return;
     }

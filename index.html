@@ -72,28 +72,30 @@
     <section id="generate" class="generator">
       <div class="container">
         <h2 class="section-title">Build your exam</h2>
-        <form id="exam-form" class="exam-form split-panes" novalidate>
+        <form id="exam-form" class="exam-form split-panes" novalidate autocomplete="off">
           <section class="exam-pane">
             <h3 class="pane-title">Create a new exam</h3>
             <div class="form-row">
               <label for="course-select">Course</label>
-              <select id="course-select" name="course" required>
+              <select id="course-select" name="course" required autocomplete="off">
                 <option value="" disabled selected>Choose a course…</option>
               </select>
             </div>
 
             <div class="form-row">
               <label for="exam-select">Exam</label>
-              <select id="exam-select" name="exam" required disabled>
+              <select id="exam-select" name="exam" required disabled autocomplete="off">
                 <option value="" disabled selected>Choose a course first</option>
               </select>
             </div>
 
             <div class="form-row">
               <label for="count-select">Number of questions</label>
-              <select id="count-select" name="count">
+              <select id="count-select" name="count" required autocomplete="off">
+                <option value="" disabled selected>Choose number of questions…</option>
                 <option value="5">5 questions</option>
-                <option value="10" selected>10 questions</option>
+                <option value="8">8 questions</option>
+                <option value="10">10 questions</option>
                 <option value="15">15 questions</option>
                 <option value="20">20 questions</option>
               </select>
