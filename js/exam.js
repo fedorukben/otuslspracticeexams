@@ -78,7 +78,7 @@
     if (copied) {
       copyCodeBtn.textContent = "Code copied";
       window.setTimeout(() => {
-        copyCodeBtn.textContent = "Copy OTEX code";
+        copyCodeBtn.textContent = "Copy OTEX";
       }, 1400);
     }
   });
@@ -104,7 +104,7 @@
 
       const identifier = document.createElement("div");
       identifier.className = "question-id";
-      identifier.textContent = `Question ID: ${q.id || "unassigned"}`;
+      identifier.textContent = `QID-${q.id || "unassigned"}`;
       li.appendChild(identifier);
 
       const prompt = document.createElement("div");
@@ -374,11 +374,13 @@
     for (let i = 0; i < clean.length; i += 4) {
       chunks.push(clean.slice(i, i + 4));
     }
-    return chunks.join("-");
+    return `OTEX-${chunks.join("-")}`;
   }
 
   function ungroupCode(code) {
-    return String(code || "").trim().replace(/-/g, "");
+    const raw = String(code || "").trim();
+    const withoutPrefix = raw.toUpperCase().startsWith("OTEX-") ? raw.slice(5) : raw;
+    return withoutPrefix.replace(/-/g, "");
   }
 
   function normalizeCompactCode(code) {
