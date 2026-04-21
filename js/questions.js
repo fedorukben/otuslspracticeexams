@@ -1426,6 +1426,256 @@ const COURSES = {
             id: "m2-opt-08",
             topic: "4.3 min/max",
             prompt: "Find dimensions of the open-top box with square base of volume $32\\,\\text{m}^3$ that minimizes surface area."
+          },
+          {
+            id: "m2-mix-01",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{x^2\\sin(3x)}{(1+x^3)^2}$."
+          },
+          {
+            id: "m2-mix-02",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $f(x)=\\dfrac{(x^3+1)^4\\cos x}{\\sqrt{1+x^2}}$."
+          },
+          {
+            id: "m2-mix-03",
+            topic: "3.6 chain rule",
+            prompt: "Find $\\dfrac{dy}{dx}$ for $y=\\dfrac{x\\,e^{x^2}}{\\sin(2x)+1}$."
+          },
+          {
+            id: "m2-mix-04",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{(\\ln x)^3\\tan x}{x^2+1}$ for $x>0$."
+          },
+          {
+            id: "m2-mix-05",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $g(x)=\\dfrac{(x^2-1)^5\\arctan x}{(1+x^4)^2}$."
+          },
+          {
+            id: "m2-mix-06",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{\\sqrt{1+\\sin(x^2)}\\,(x^3-2x)}{\\cos x}$."
+          },
+          {
+            id: "m2-mix-07",
+            topic: "3.6 chain rule",
+            prompt: "Find $\\dfrac{d}{dx}\\left[\\dfrac{(e^x+1)^3\\,x^2}{(\\ln(x+2))^2}\\right]$."
+          },
+          {
+            id: "m2-mix-08",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{\\sin(x^2)\\cos(3x)}{(x^2+4)^3}$."
+          },
+          {
+            id: "m2-mix-09",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{x^3\\arcsin(x/2)}{(1+x^2)^2}$."
+          },
+          {
+            id: "m2-mix-10",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{(\\arctan x)^2\\sin(2x)}{x^2+1}$."
+          },
+          {
+            id: "m2-mix-11",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{x\\cos(x^2)}{\\sqrt{1+\\arctan x}}$."
+          },
+          {
+            id: "m2-mix-12",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{(\\sin x)^3\\arccos(x/3)}{(1+x)^2}$."
+          },
+          {
+            id: "m2-mix-13",
+            topic: "3.6 chain rule",
+            prompt: "Find $\\dfrac{dy}{dx}$ for $y=\\dfrac{x^2\\tan(x^3)}{1+\\arcsin x}$."
+          },
+          {
+            id: "m2-mix-14",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{\\ln(1+x^2)\\sin(4x)}{\\arctan(2x)}$."
+          },
+          {
+            id: "m2-mix-15",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{(x^2+1)^3\\cos(x^2)}{\\sqrt{1+x^4}}$."
+          },
+          {
+            id: "m2-mix-16",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{x\\arctan(x^2)}{(\\cos x)^2}$."
+          },
+          {
+            id: "m2-mix-17",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{\\sin(5x)\\arcsin(x)}{x^2+4}$."
+          },
+          {
+            id: "m2-mix-18",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{(1+x^2)^2\\ln(\\cos x)}{x\\arctan x}$."
+          },
+          {
+            id: "m2-mix-19",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{x^2e^{\\sin x}}{1+\\cos(x^2)}$."
+          },
+          {
+            id: "m2-mix-20",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{\\arccos(x/2)\\tan(3x)}{(x^2+1)^3}$."
+          },
+          {
+            id: "m2-mix-21",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{(\\sin(x^2)+1)^4\\,x}{\\ln(x+3)}$."
+          },
+          {
+            id: "m2-mix-22",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{x^3\\sec^2(2x)}{\\sqrt{1+x^2}}$."
+          },
+          {
+            id: "m2-mix-23",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{\\sin x\\cos(x^3)}{\\arcsin(x/2)}$."
+          },
+          {
+            id: "m2-mix-24",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{(\\arctan x)^3(1+x^2)}{\\sin(2x)}$."
+          },
+          {
+            id: "m2-mix-25",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{x\\ln(1+x^2)\\arcsin x}{(1+x)^2}$."
+          },
+          {
+            id: "m2-mix-26",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{\\cos(\\arctan x)\\,x^2}{\\sqrt{1+x^4}}$."
+          },
+          {
+            id: "m2-mix-27",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{(x^2-1)^2\\sin(1/x)}{\\arctan(3x)}$."
+          },
+          {
+            id: "m2-mix-28",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{x^4\\arccos x}{(1+\\sin x)^2}$."
+          },
+          {
+            id: "m2-mix-29",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{\\tan(x^2)\\ln(x+1)}{\\arcsin(x/3)}$."
+          },
+          {
+            id: "m2-mix-30",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\dfrac{x\\sin x\\cos x}{\\arctan(x^2)}$."
+          },
+          {
+            id: "m2-mix-31",
+            topic: "3.8 implicit differentiation",
+            prompt: "Given $x^2y+\\sin(xy)=3$, find $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-mix-32",
+            topic: "3.8 implicit differentiation",
+            prompt: "Given $\\cos(xy)+x^2=y^2$, find $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-mix-33",
+            topic: "3.8 implicit differentiation",
+            prompt: "For $x\\arctan y + y\\arcsin x = 1$, find $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-mix-34",
+            topic: "3.8 implicit differentiation",
+            prompt: "For $e^{xy}+\\tan y = x^2$, compute $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-mix-35",
+            topic: "3.8 implicit differentiation",
+            prompt: "Given $x^2\\sin y + y^2\\cos x = 4$, find $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-mix-36",
+            topic: "3.8 implicit differentiation",
+            prompt: "If $x\\cos y + y\\sin x = 2$, find $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-mix-37",
+            topic: "3.8 implicit differentiation",
+            prompt: "Given $\\ln(x+y)+xy=0$, find $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-mix-38",
+            topic: "3.8 implicit differentiation",
+            prompt: "For $x^3+y^3=6\\sin(xy)$, compute $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-mix-39",
+            topic: "3.8 implicit differentiation",
+            prompt: "Given $x\\,e^y + y\\,e^x = 5$, find $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-mix-40",
+            topic: "3.8 implicit differentiation",
+            prompt: "For $x^2+y^2+2xy\\sin x=9$, find $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-mix-41",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $y=\\dfrac{\\arcsin(x^2)\\,\\arctan x}{1+x^2}$."
+          },
+          {
+            id: "m2-mix-42",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $y=\\dfrac{x\\arccos(2x)}{\\sqrt{1-x^2}}$."
+          },
+          {
+            id: "m2-mix-43",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $y=\\dfrac{(\\arctan(3x))^2\\sin x}{x}$."
+          },
+          {
+            id: "m2-mix-44",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $y=\\dfrac{\\ln x\\,\\arcsin(1/x)}{x^2+1}$ for $x>1$."
+          },
+          {
+            id: "m2-mix-45",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $y=\\dfrac{\\arccos(x/2)\\cos(2x)}{(1+x)^2}$."
+          },
+          {
+            id: "m2-mix-46",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $y=\\dfrac{x^2\\arctan(\\sqrt{x})}{\\sin x+2}$."
+          },
+          {
+            id: "m2-mix-47",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $y=\\dfrac{\\arcsin x + \\arctan x}{x\\cos x}$."
+          },
+          {
+            id: "m2-mix-48",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $y=\\dfrac{\\arctan(x^3)\\,e^x}{1+\\arcsin(x/2)}$."
+          },
+          {
+            id: "m2-mix-49",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $y=\\dfrac{(\\arcsin x)^2}{x^2+\\cos x}$."
+          },
+          {
+            id: "m2-mix-50",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $y=\\dfrac{\\arccos x\\,\\tan x}{\\ln(x+2)}$."
           }
         ]
       },
