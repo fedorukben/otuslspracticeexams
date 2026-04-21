@@ -1387,22 +1387,467 @@ const COURSES = {
 
       "final": {
         name: "Final Exam",
-        topics: ["all topics"],
+        topics: [
+          "optimization",
+          "antiderivatives",
+          "approximating areas (left, right, midpoint)",
+          "definite integrals",
+          "riemann sums",
+          "FTC",
+          "basic integrals",
+          "net change theorem",
+          "u-sub"
+        ],
         questions: [
           {
-            id: "fin-01",
+            id: "FE-001",
             topic: "optimization",
-            prompt: "A rectangular field is to be enclosed using 200 m of fencing, with one side along a river requiring no fence. Find the dimensions that maximize the area."
+            prompt: "A rectangle has perimeter 120 m. Find dimensions that maximize area."
           },
           {
-            id: "fin-02",
-            topic: "integration",
-            prompt: "Evaluate $\\displaystyle \\int_0^1 (3x^2 + 2x)\\, dx$."
+            id: "FE-002",
+            topic: "optimization",
+            prompt: "Find the point on $y=x^2$ closest to $(2,0)$."
           },
           {
-            id: "fin-03",
+            id: "FE-003",
+            topic: "optimization",
+            prompt: "A closed cylinder has volume $200\\pi\\,\\text{cm}^3$. Find dimensions minimizing surface area."
+          },
+          {
+            id: "FE-004",
+            topic: "optimization",
+            prompt: "A rectangle is inscribed under $y=16-x^2$ above the $x$-axis. Find dimensions of maximum area."
+          },
+          {
+            id: "FE-005",
+            topic: "optimization",
+            prompt: "A box with square base and no lid has volume $108\\,\\text{cm}^3$. Minimize surface area."
+          },
+          {
+            id: "FE-006",
+            topic: "optimization",
+            prompt: "Find absolute max and min of $f(x)=x+\\dfrac{9}{x}$ on $[1,6]$."
+          },
+          {
+            id: "FE-007",
+            topic: "optimization",
+            prompt: "A Norman window has semicircle on top of a rectangle. For fixed perimeter 20 m, maximize area."
+          },
+          {
+            id: "FE-008",
+            topic: "optimization",
+            prompt: "A farmer wants to fence three sides of a rectangular pen using 240 m of fence (one side along a barn). Maximize area."
+          },
+          {
+            id: "FE-009",
+            topic: "optimization",
+            prompt: "Find dimensions of a rectangle of largest area inscribed in the ellipse $\\dfrac{x^2}{9}+\\dfrac{y^2}{4}=1$."
+          },
+          {
+            id: "FE-010",
+            topic: "optimization",
+            prompt: "Find the minimum distance from point $(1,2)$ to the line $y=-x+5$."
+          },
+          {
+            id: "FE-011",
+            topic: "antiderivatives",
+            prompt: "Find the most general antiderivative of $f(x)=6x^2-4x+1$."
+          },
+          {
+            id: "FE-012",
+            topic: "antiderivatives",
+            prompt: "Find $\\displaystyle \\int (4x^3-\\dfrac{2}{x^2})\\,dx$."
+          },
+          {
+            id: "FE-013",
+            topic: "antiderivatives",
+            prompt: "Find the general antiderivative of $f(t)=\\sqrt{t}+\\dfrac{3}{\\sqrt{t}}$."
+          },
+          {
+            id: "FE-014",
+            topic: "antiderivatives",
+            prompt: "Find $F(x)$ if $F'(x)=5e^x-2\\cos x$."
+          },
+          {
+            id: "FE-015",
+            topic: "antiderivatives",
+            prompt: "Find the antiderivative of $f(x)=\\sec^2 x-\\sin x$."
+          },
+          {
+            id: "FE-016",
+            topic: "antiderivatives",
+            prompt: "Compute $\\displaystyle \\int (7x^{-3}+x^{1/2})\\,dx$."
+          },
+          {
+            id: "FE-017",
+            topic: "antiderivatives",
+            prompt: "Find all functions $y(x)$ such that $y'(x)=3x^2+4x-5$ and $y(1)=2$."
+          },
+          {
+            id: "FE-018",
+            topic: "antiderivatives",
+            prompt: "Find $\\displaystyle \\int \\left(\\dfrac{1}{x}+2\\right)dx$ for $x>0$."
+          },
+          {
+            id: "FE-019",
+            topic: "antiderivatives",
+            prompt: "Find a particular antiderivative of $f(x)=2\\sin x+3\\cos x$ that satisfies $F(0)=4$."
+          },
+          {
+            id: "FE-020",
+            topic: "antiderivatives",
+            prompt: "Determine $F(x)$ if $F''(x)=12x-6$, $F'(0)=1$, and $F(0)=0$."
+          },
+          {
+            id: "FE-021",
+            topic: "approximating areas (left, right, midpoint)",
+            prompt: "Approximate $\\int_0^4 x^2\\,dx$ with $n=4$ using left Riemann sum."
+          },
+          {
+            id: "FE-022",
+            topic: "approximating areas (left, right, midpoint)",
+            prompt: "Approximate $\\int_1^5 \\sqrt{x}\\,dx$ with $n=4$ using right Riemann sum."
+          },
+          {
+            id: "FE-023",
+            topic: "approximating areas (left, right, midpoint)",
+            prompt: "Approximate $\\int_0^2 e^x\\,dx$ using midpoint rule with $n=4$."
+          },
+          {
+            id: "FE-024",
+            topic: "approximating areas (left, right, midpoint)",
+            prompt: "Use left, right, and midpoint sums with $n=3$ to approximate $\\int_0^3 (x+1)\\,dx$."
+          },
+          {
+            id: "FE-025",
+            topic: "approximating areas (left, right, midpoint)",
+            prompt: "For $f(x)=x^3$ on $[0,2]$, compute $L_4$ and $R_4$."
+          },
+          {
+            id: "FE-026",
+            topic: "approximating areas (left, right, midpoint)",
+            prompt: "Approximate $\\int_2^6 \\dfrac{1}{x}\\,dx$ using midpoint rule with $n=4$."
+          },
+          {
+            id: "FE-027",
+            topic: "approximating areas (left, right, midpoint)",
+            prompt: "Use $R_5$ to approximate $\\int_0^5 (2x+1)\\,dx$."
+          },
+          {
+            id: "FE-028",
+            topic: "approximating areas (left, right, midpoint)",
+            prompt: "Use $L_6$ to approximate $\\int_0^3 \\cos x\\,dx$."
+          },
+          {
+            id: "FE-029",
+            topic: "approximating areas (left, right, midpoint)",
+            prompt: "Use midpoint rule with $n=8$ to estimate $\\int_0^2 \\dfrac{1}{1+x^2}\\,dx$."
+          },
+          {
+            id: "FE-030",
+            topic: "approximating areas (left, right, midpoint)",
+            prompt: "Compare $L_4$ and $R_4$ for $f(x)=x^2$ on $[1,3]$ and determine which is an overestimate."
+          },
+          {
+            id: "FE-031",
+            topic: "definite integrals",
+            prompt: "Evaluate $\\displaystyle \\int_0^2 (3x^2-4x+1)\\,dx$."
+          },
+          {
+            id: "FE-032",
+            topic: "definite integrals",
+            prompt: "Evaluate $\\displaystyle \\int_{-1}^{1} (x^3+2x)\\,dx$."
+          },
+          {
+            id: "FE-033",
+            topic: "definite integrals",
+            prompt: "Compute $\\displaystyle \\int_1^4 \\left(2-\\dfrac{1}{x^2}\\right)dx$."
+          },
+          {
+            id: "FE-034",
+            topic: "definite integrals",
+            prompt: "Evaluate $\\displaystyle \\int_0^{\\pi} \\sin x\\,dx$."
+          },
+          {
+            id: "FE-035",
+            topic: "definite integrals",
+            prompt: "Evaluate $\\displaystyle \\int_0^{\\pi/2} \\cos x\\,dx$."
+          },
+          {
+            id: "FE-036",
+            topic: "definite integrals",
+            prompt: "Find $\\displaystyle \\int_0^1 e^{2x}\\,dx$."
+          },
+          {
+            id: "FE-037",
+            topic: "definite integrals",
+            prompt: "Evaluate $\\displaystyle \\int_1^e \\dfrac{1}{x}\\,dx$."
+          },
+          {
+            id: "FE-038",
+            topic: "definite integrals",
+            prompt: "Compute $\\displaystyle \\int_{-2}^{2} (x^2+1)\\,dx$."
+          },
+          {
+            id: "FE-039",
+            topic: "definite integrals",
+            prompt: "Evaluate $\\displaystyle \\int_0^3 |x-1|\\,dx$."
+          },
+          {
+            id: "FE-040",
+            topic: "definite integrals",
+            prompt: "Given $\\int_0^4 f(x)\\,dx=7$ and $\\int_0^1 f(x)\\,dx=2$, find $\\int_1^4 f(x)\\,dx$."
+          },
+          {
+            id: "FE-041",
+            topic: "riemann sums",
+            prompt: "Write a limit of Riemann sums for $\\int_0^3 (x^2+1)\\,dx$ using right endpoints."
+          },
+          {
+            id: "FE-042",
+            topic: "riemann sums",
+            prompt: "Express $\\sum_{i=1}^n \\left(\\dfrac{i}{n}\\right)^2\\dfrac{1}{n}$ as a definite integral."
+          },
+          {
+            id: "FE-043",
+            topic: "riemann sums",
+            prompt: "Evaluate $\\displaystyle \\lim_{n\\to\\infty}\\sum_{i=1}^n \\left(\\dfrac{2i}{n}\\right)^2\\dfrac{2}{n}$."
+          },
+          {
+            id: "FE-044",
+            topic: "riemann sums",
+            prompt: "Set up (do not simplify) a midpoint Riemann sum for $\\int_1^5 \\ln x\\,dx$ with $n$ subintervals."
+          },
+          {
+            id: "FE-045",
+            topic: "riemann sums",
+            prompt: "Convert $\\displaystyle \\int_{-1}^{2} (3x-1)\\,dx$ into a left-endpoint Riemann sum limit."
+          },
+          {
+            id: "FE-046",
+            topic: "riemann sums",
+            prompt: "Find the function and interval represented by $\\displaystyle \\lim_{n\\to\\infty}\\sum_{i=1}^n \\sqrt{1+\\frac{3i}{n}}\\frac{3}{n}$."
+          },
+          {
+            id: "FE-047",
+            topic: "riemann sums",
+            prompt: "Evaluate by Riemann sum definition: $\\int_0^1 x\\,dx$."
+          },
+          {
+            id: "FE-048",
+            topic: "riemann sums",
+            prompt: "Evaluate by Riemann sum definition: $\\int_0^2 (x+2)\\,dx$."
+          },
+          {
+            id: "FE-049",
+            topic: "riemann sums",
+            prompt: "Express $\\sum_{i=1}^n \\sin\\!\\left(\\dfrac{i\\pi}{n}\\right)\\dfrac{\\pi}{n}$ as a definite integral."
+          },
+          {
+            id: "FE-050",
+            topic: "riemann sums",
+            prompt: "Write a Riemann sum limit for $\\int_2^6 \\dfrac{1}{x}\\,dx$ with sample points at right endpoints."
+          },
+          {
+            id: "FE-051",
             topic: "FTC",
-            prompt: "Use the Fundamental Theorem of Calculus to find $F'(x)$ where $F(x) = \\int_1^{x^2} \\sqrt{1 + t^3}\\, dt$."
+            prompt: "If $F(x)=\\int_1^x (t^2+3t)\\,dt$, find $F'(x)$."
+          },
+          {
+            id: "FE-052",
+            topic: "FTC",
+            prompt: "Find $\\dfrac{d}{dx}\\left[\\int_0^{x^3} \\cos t\\,dt\\right]$."
+          },
+          {
+            id: "FE-053",
+            topic: "FTC",
+            prompt: "Evaluate $\\dfrac{d}{dx}\\left[\\int_{x}^{2x} \\sqrt{1+t^2}\\,dt\\right]$."
+          },
+          {
+            id: "FE-054",
+            topic: "FTC",
+            prompt: "If $G(x)=\\int_{\\sin x}^{x^2} e^{t^2}\\,dt$, find $G'(x)$."
+          },
+          {
+            id: "FE-055",
+            topic: "FTC",
+            prompt: "Given $f(2)=5$ and $f'(x)=3x^2$, find $f(4)$ using net accumulation."
+          },
+          {
+            id: "FE-056",
+            topic: "FTC",
+            prompt: "Let $H(x)=\\int_0^x \\dfrac{1}{1+t^2}\\,dt$. Find equations of tangent line to $y=H(x)$ at $x=1$."
+          },
+          {
+            id: "FE-057",
+            topic: "FTC",
+            prompt: "Compute $\\displaystyle \\int_0^3 f'(x)\\,dx$ given $f(0)=2$ and $f(3)=11$."
+          },
+          {
+            id: "FE-058",
+            topic: "FTC",
+            prompt: "If $A(x)=\\int_2^x f(t)\\,dt$ and $A'(3)=7$, what is $f(3)$?"
+          },
+          {
+            id: "FE-059",
+            topic: "FTC",
+            prompt: "Find $\\dfrac{d}{dx}\\left[\\int_{x^2}^{x^3} \\ln(1+t)\\,dt\\right]$."
+          },
+          {
+            id: "FE-060",
+            topic: "FTC",
+            prompt: "Given $F(x)=\\int_0^x (x-t)\\,dt$, first simplify then compute $F'(x)$."
+          },
+          {
+            id: "FE-061",
+            topic: "basic integrals",
+            prompt: "Evaluate $\\displaystyle \\int (9x^2-8x+6)\\,dx$."
+          },
+          {
+            id: "FE-062",
+            topic: "basic integrals",
+            prompt: "Evaluate $\\displaystyle \\int \\left(\\dfrac{3}{x}-4e^x\\right)dx$."
+          },
+          {
+            id: "FE-063",
+            topic: "basic integrals",
+            prompt: "Evaluate $\\displaystyle \\int (\\sec^2 x+\\csc^2 x)\\,dx$."
+          },
+          {
+            id: "FE-064",
+            topic: "basic integrals",
+            prompt: "Evaluate $\\displaystyle \\int (2^x+\\sin x)\\,dx$."
+          },
+          {
+            id: "FE-065",
+            topic: "basic integrals",
+            prompt: "Compute $\\displaystyle \\int x^{-1/2}\\,dx$."
+          },
+          {
+            id: "FE-066",
+            topic: "basic integrals",
+            prompt: "Compute $\\displaystyle \\int (5\\cos x-7\\sin x)\\,dx$."
+          },
+          {
+            id: "FE-067",
+            topic: "basic integrals",
+            prompt: "Evaluate $\\displaystyle \\int \\left(\\dfrac{1}{x^3}+\\sqrt[3]{x}\\right)dx$."
+          },
+          {
+            id: "FE-068",
+            topic: "basic integrals",
+            prompt: "Find $\\displaystyle \\int_0^2 (x^3-2x)\\,dx$."
+          },
+          {
+            id: "FE-069",
+            topic: "basic integrals",
+            prompt: "Evaluate $\\displaystyle \\int (\\tan x)(\\sec^2 x)\\,dx$."
+          },
+          {
+            id: "FE-070",
+            topic: "basic integrals",
+            prompt: "Evaluate $\\displaystyle \\int \\dfrac{1}{1+x^2}\\,dx$."
+          },
+          {
+            id: "FE-071",
+            topic: "net change theorem",
+            prompt: "A particle has velocity $v(t)=3t^2-12t+9$ on $[0,4]$. Find net change in position."
+          },
+          {
+            id: "FE-072",
+            topic: "net change theorem",
+            prompt: "Flow rate into a tank is $r(t)=5+2t$ L/min for $0\\le t\\le 6$. Find total amount added."
+          },
+          {
+            id: "FE-073",
+            topic: "net change theorem",
+            prompt: "Temperature change rate is $T'(t)=4\\sin t$ for $0\\le t\\le \\pi$. Find net temperature change."
+          },
+          {
+            id: "FE-074",
+            topic: "net change theorem",
+            prompt: "A car's acceleration is $a(t)=6t-4$ m/s$^2$ on $[0,3]$. Find change in velocity."
+          },
+          {
+            id: "FE-075",
+            topic: "net change theorem",
+            prompt: "Given revenue rate $R'(x)=120-3x$ dollars/unit, find revenue increase from 10 to 20 units."
+          },
+          {
+            id: "FE-076",
+            topic: "net change theorem",
+            prompt: "If $f'(x)=\\dfrac{2}{x}$ on $[1,4]$, find $f(4)-f(1)$."
+          },
+          {
+            id: "FE-077",
+            topic: "net change theorem",
+            prompt: "Population growth rate is $P'(t)=100e^{0.1t}$ people/year, $0\\le t\\le 5$. Find net increase."
+          },
+          {
+            id: "FE-078",
+            topic: "net change theorem",
+            prompt: "Given $s'(t)=t^2-4t+3$, find displacement on $[1,5]$."
+          },
+          {
+            id: "FE-079",
+            topic: "net change theorem",
+            prompt: "If marginal cost is $C'(q)=0.4q+12$, compute increase in cost from $q=50$ to $q=80$."
+          },
+          {
+            id: "FE-080",
+            topic: "net change theorem",
+            prompt: "Given $f(0)=7$ and $f'(x)=x^2-2x$, find $f(3)$."
+          },
+          {
+            id: "FE-081",
+            topic: "u-sub",
+            prompt: "Evaluate $\\displaystyle \\int 2x\\cos(x^2)\\,dx$ using substitution."
+          },
+          {
+            id: "FE-082",
+            topic: "u-sub",
+            prompt: "Evaluate $\\displaystyle \\int \\dfrac{3x^2}{x^3+1}\\,dx$."
+          },
+          {
+            id: "FE-083",
+            topic: "u-sub",
+            prompt: "Compute $\\displaystyle \\int x\\sqrt{x^2+4}\\,dx$."
+          },
+          {
+            id: "FE-084",
+            topic: "u-sub",
+            prompt: "Evaluate $\\displaystyle \\int e^{5x-1}\\,dx$."
+          },
+          {
+            id: "FE-085",
+            topic: "u-sub",
+            prompt: "Evaluate $\\displaystyle \\int \\sin(4x)\\,dx$."
+          },
+          {
+            id: "FE-086",
+            topic: "u-sub",
+            prompt: "Evaluate $\\displaystyle \\int \\dfrac{1}{\\sqrt{1-3x}}\\,dx$."
+          },
+          {
+            id: "FE-087",
+            topic: "u-sub",
+            prompt: "Compute $\\displaystyle \\int_0^1 6x(3x^2+2)^4\\,dx$."
+          },
+          {
+            id: "FE-088",
+            topic: "u-sub",
+            prompt: "Evaluate $\\displaystyle \\int \\dfrac{\\ln x}{x}\\,dx$."
+          },
+          {
+            id: "FE-089",
+            topic: "u-sub",
+            prompt: "Evaluate $\\displaystyle \\int \\cos(\\sqrt{x})\\dfrac{1}{\\sqrt{x}}\\,dx$."
+          },
+          {
+            id: "FE-090",
+            topic: "u-sub",
+            prompt: "Evaluate $\\displaystyle \\int_{0}^{\\pi/2} \\sin(2x)\\,dx$ using substitution."
           }
         ]
       }
