@@ -1,0 +1,359 @@
+/* =========================================================
+   Practice Exams — Exam page logic
+   ========================================================= */
+
+(function () {
+  "use strict";
+
+  const titleEl = document.getElementById("exam-title");
+  const metaEl = document.getElementById("exam-meta");
+  const eyebrowEl = document.getElementById("exam-eyebrow");
+  const printTitle = document.getElementById("print-title");
+  const printMeta = document.getElementById("print-meta");
+  const questionsEl = document.getElementById("exam-questions");
+  const errorEl = document.getElementById("exam-error");
+  const errorMsg = document.getElementById("exam-error-msg");
+  const copyCodeBtn = document.getElementById("copy-code-btn");
+  const regenBtn = document.getElementById("regenerate-btn");
+  const printBtn = document.getElementById("print-btn");
+  const yearEl = document.getElementById("year");
+  let currentRetrievalCode = "";
+
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  const params = new URLSearchParams(window.location.search);
+  const codeParam = params.get("code");
+  let courseId = params.get("course");
+  let examId = params.get("exam");
+  let count = parseInt(params.get("count") || "10", 10);
+  let fixedQuestionIds = null;
+
+  if (codeParam) {
+    const decoded = decodeRetrievalCode(codeParam);
+    if (!decoded || !decoded.course || !decoded.exam || !Array.isArray(decoded.ids) || decoded.ids.length === 0) {
+      showError("That OTEX code is invalid. Please check the code and try again.");
+      return;
+    }
+    courseId = decoded.course;
+    examId = decoded.exam;
+    count = decoded.ids.length;
+    fixedQuestionIds = decoded.ids;
+  }
+
+  const courses = window.COURSES || {};
+  const course = courses[courseId];
+  const exam = course && course.exams ? course.exams[examId] : null;
+
+  if (!course || !exam) {
+    showError("We couldn't find that course or exam. Try picking again from the generator.");
+    return;
+  }
+
+  if (!exam.questions || exam.questions.length === 0) {
+    showError("This exam doesn't have any questions in the bank yet.");
+    return;
+  }
+
+  // Set titles
+  const now = new Date();
+  const dateStr = now.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" });
+  titleEl.textContent = exam.name;
+  eyebrowEl.textContent = course.name;
+  metaEl.textContent = `Randomized practice set · ${dateStr}`;
+  printTitle.textContent = `${course.name} — ${exam.name}`;
+  printMeta.textContent = `Practice set · ${dateStr}`;
+  document.title = `${exam.name} — ${course.name}`;
+
+  renderQuestions();
+
+  regenBtn.addEventListener("click", () => {
+    renderQuestions();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  printBtn.addEventListener("click", () => window.print());
+  copyCodeBtn.addEventListener("click", async () => {
+    if (!currentRetrievalCode) return;
+    const copied = await copyTextToClipboard(currentRetrievalCode);
+    if (copied) {
+      copyCodeBtn.textContent = "Code copied";
+      window.setTimeout(() => {
+        copyCodeBtn.textContent = "Copy OTEX code";
+      }, 1400);
+    }
+  });
+
+  function renderQuestions() {
+    questionsEl.innerHTML = "";
+    const pool = exam.questions.slice();
+    const selected = fixedQuestionIds
+      ? resolveQuestionsByIds(pool, fixedQuestionIds)
+      : sampleWeighted(pool, Math.min(count, pool.length));
+
+    if (!selected || selected.length === 0) {
+      showError("We couldn't rebuild this exact exam from the OTEX code.");
+      return;
+    }
+
+    const retrievalCode = encodeRetrievalCode(courseId, examId, selected.map((q) => q.id).filter(Boolean));
+    currentRetrievalCode = retrievalCode;
+    printMeta.textContent = `Practice set · ${dateStr} · OTEX code: ${retrievalCode}`;
+
+    selected.forEach((q) => {
+      const li = document.createElement("li");
+
+      const identifier = document.createElement("div");
+      identifier.className = "question-id";
+      identifier.textContent = `Question ID: ${q.id || "unassigned"}`;
+      li.appendChild(identifier);
+
+      const prompt = document.createElement("div");
+      prompt.className = "question-prompt";
+      prompt.innerHTML = q.prompt;
+      li.appendChild(prompt);
+
+      const work = document.createElement("div");
+      work.className = "question-workspace no-print-hint";
+      li.appendChild(work);
+
+      questionsEl.appendChild(li);
+    });
+
+    // Re-run KaTeX on newly added content
+    if (window.renderMathInElement) {
+      window.renderMathInElement(questionsEl, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false },
+          { left: "\\(", right: "\\)", display: false },
+          { left: "\\[", right: "\\]", display: true }
+        ],
+        throwOnError: false
+      });
+    }
+  }
+
+  function sampleWeighted(questions, n) {
+    const weights = {
+      limitsContinuity: 0.55,
+      derivatives: 0.20,
+      infinityAsymptotes: 0.15,
+      precalculus: 0.10
+    };
+
+    const categorized = {
+      limitsContinuity: [],
+      derivatives: [],
+      infinityAsymptotes: [],
+      precalculus: []
+    };
+
+    questions.forEach((q) => {
+      categorized[categorizeQuestion(q)].push(q);
+    });
+
+    const targets = computeBucketTargets(n, weights);
+    const selected = [];
+    const selectedIds = new Set();
+
+    Object.keys(targets).forEach((bucket) => {
+      const picks = sample(categorized[bucket], targets[bucket]);
+      picks.forEach((q) => {
+        if (!selectedIds.has(q.id)) {
+          selected.push(q);
+          selectedIds.add(q.id);
+        }
+      });
+    });
+
+    if (selected.length < n) {
+      const leftovers = questions.filter((q) => !selectedIds.has(q.id));
+      const topUp = sample(leftovers, n - selected.length);
+      topUp.forEach((q) => selected.push(q));
+    }
+
+    return sample(selected, selected.length);
+  }
+
+  function computeBucketTargets(total, weights) {
+    const buckets = Object.keys(weights);
+    const exact = buckets.map((bucket) => ({
+      bucket,
+      raw: total * weights[bucket]
+    }));
+
+    const targets = {};
+    let used = 0;
+
+    exact.forEach(({ bucket, raw }) => {
+      const base = Math.floor(raw);
+      targets[bucket] = base;
+      used += base;
+    });
+
+    const remaining = total - used;
+    exact
+      .sort((a, b) => (b.raw - Math.floor(b.raw)) - (a.raw - Math.floor(a.raw)))
+      .slice(0, remaining)
+      .forEach(({ bucket }) => {
+        targets[bucket] += 1;
+      });
+
+    return targets;
+  }
+
+  function categorizeQuestion(question) {
+    const topic = String(question.topic || "").toLowerCase();
+    const id = String(question.id || "").toLowerCase();
+
+    if (
+      topic.includes("asymptote") ||
+      topic.includes("limits at infinity") ||
+      id.includes("-inf-") ||
+      id.includes("-asym-")
+    ) {
+      return "infinityAsymptotes";
+    }
+
+    if (
+      topic.includes("deriv") ||
+      topic.includes("tangent") ||
+      topic.includes("limit definition") ||
+      id.includes("-def-") ||
+      id.includes("-deriv-") ||
+      id.includes("-tan-")
+    ) {
+      return "derivatives";
+    }
+
+    if (
+      topic.includes("precalculus") ||
+      topic.includes("domain") ||
+      topic.includes("composition") ||
+      topic.includes("piecewise") ||
+      topic.includes("inverse") ||
+      topic.includes("exponential") ||
+      topic.includes("log") ||
+      topic.includes("trigonometry") ||
+      id.includes("-prec-")
+    ) {
+      return "precalculus";
+    }
+
+    return "limitsContinuity";
+  }
+
+  function resolveQuestionsByIds(pool, ids) {
+    const byId = new Map(pool.map((q) => [q.id, q]));
+    const resolved = [];
+    for (let i = 0; i < ids.length; i++) {
+      const question = byId.get(ids[i]);
+      if (!question) return null;
+      resolved.push(question);
+    }
+    return resolved;
+  }
+
+  function encodeRetrievalCode(course, examKey, ids) {
+    const payload = JSON.stringify({ course, exam: examKey, ids });
+    const compact = base64UrlEncode(payload);
+    return groupCode(compact);
+  }
+
+  function decodeRetrievalCode(code) {
+    try {
+      const compact = normalizeCompactCode(code);
+      const payload = base64UrlDecode(compact);
+      return JSON.parse(payload);
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function groupCode(compact) {
+    const clean = String(compact || "").trim();
+    const chunks = [];
+    for (let i = 0; i < clean.length; i += 4) {
+      chunks.push(clean.slice(i, i + 4));
+    }
+    return chunks.join("-");
+  }
+
+  function ungroupCode(code) {
+    return String(code || "").trim().replace(/-/g, "");
+  }
+
+  function normalizeCompactCode(code) {
+    const raw = String(code || "").trim();
+
+    if (!raw) return "";
+
+    // Support users pasting a full URL instead of just the OTEX code.
+    if (raw.includes("code=")) {
+      try {
+        const parsed = new URL(raw);
+        const fromUrl = parsed.searchParams.get("code");
+        if (fromUrl) return ungroupCode(fromUrl).replace(/\s+/g, "");
+      } catch (err) {
+        // Continue with plain cleanup below.
+      }
+    }
+
+    return ungroupCode(raw).replace(/\s+/g, "");
+  }
+
+  function base64UrlEncode(str) {
+    const bytes = new TextEncoder().encode(str);
+    let binary = "";
+    bytes.forEach((b) => {
+      binary += String.fromCharCode(b);
+    });
+    return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+  }
+
+  function base64UrlDecode(str) {
+    const base64 = str.replace(/-/g, "+").replace(/_/g, "/");
+    const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, "=");
+    const binary = atob(padded);
+    const bytes = Uint8Array.from(binary, (ch) => ch.charCodeAt(0));
+    return new TextDecoder().decode(bytes);
+  }
+
+  async function copyTextToClipboard(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (err) {
+      try {
+        const temp = document.createElement("textarea");
+        temp.value = text;
+        temp.setAttribute("readonly", "");
+        temp.style.position = "fixed";
+        temp.style.opacity = "0";
+        document.body.appendChild(temp);
+        temp.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(temp);
+        return ok;
+      } catch (fallbackErr) {
+        return false;
+      }
+    }
+  }
+
+  // Fisher–Yates sample
+  function sample(arr, n) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a.slice(0, n);
+  }
+
+  function showError(msg) {
+    document.querySelector(".exam-toolbar").style.display = "none";
+    errorMsg.textContent = msg;
+    errorEl.hidden = false;
+  }
+})();

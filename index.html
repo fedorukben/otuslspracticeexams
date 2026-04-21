@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practice Exam Generator</title>
+  <meta name="description" content="Generate randomized practice exams for university math and statistics courses." />
+
+  <!-- Ubuntu (primary brand font) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.jpeg" />
+  <link rel="alternate icon" href="assets/favicon.ico" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="Ontario Tech University — Practice Exams home">
+        <img src="assets/ontario-tech-logo.jpeg" alt="Ontario Tech University" class="brand-logo" />
+        <span class="brand-divider" aria-hidden="true"></span>
+        <span class="brand-product">Practice Exams</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#generate">Generate</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+    <div class="header-accent" aria-hidden="true"></div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <p class="eyebrow">Ontario Tech University · Math &amp; Statistics</p>
+        <h1 class="hero-title">
+          Generate your own<br />
+          <span class="hero-title-accent">practice exam.</span>
+        </h1>
+        <p class="hero-sub">
+          Pick a course and an exam. Get a randomized, printable set of questions
+          drawn from a curated bank — so you can test yourself the way the real
+          exam will.
+        </p>
+        <a href="#generate" class="btn btn-primary">Start practising</a>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container about-grid">
+        <div class="about-item">
+          <div class="about-num">01</div>
+          <h3>Retrieval practice</h3>
+          <p>Testing yourself under exam conditions beats re-reading notes. Every time.</p>
+        </div>
+        <div class="about-item">
+          <div class="about-num">02</div>
+          <h3>Randomized sets</h3>
+          <p>Questions are drawn fresh each time, so you never memorize a fixed order.</p>
+        </div>
+        <div class="about-item">
+          <div class="about-num">03</div>
+          <h3>Exam-shaped</h3>
+          <p>Items are mapped to the topics and difficulty typical of each exam.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="generate" class="generator">
+      <div class="container">
+        <h2 class="section-title">Build your exam</h2>
+        <form id="exam-form" class="exam-form split-panes" novalidate>
+          <section class="exam-pane">
+            <h3 class="pane-title">Create a new exam</h3>
+            <div class="form-row">
+              <label for="course-select">Course</label>
+              <select id="course-select" name="course" required>
+                <option value="" disabled selected>Choose a course…</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="exam-select">Exam</label>
+              <select id="exam-select" name="exam" required disabled>
+                <option value="" disabled selected>Choose a course first</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="count-select">Number of questions</label>
+              <select id="count-select" name="count">
+                <option value="5">5 questions</option>
+                <option value="10" selected>10 questions</option>
+                <option value="15">15 questions</option>
+                <option value="20">20 questions</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">Generate practice exam</button>
+          </section>
+
+          <section class="exam-pane">
+            <h3 class="pane-title">Load from OTEX code</h3>
+            <div class="form-row">
+              <label for="retrieval-code-input">Enter an OTEX code</label>
+              <input
+                id="retrieval-code-input"
+                name="retrieval-code"
+                type="text"
+                autocomplete="off"
+                placeholder="Paste OTEX code"
+              />
+            </div>
+
+            <button type="button" id="retrieve-code-btn" class="btn btn-secondary btn-full">Open from OTEX code</button>
+          </section>
+          <p id="form-error" class="form-error pane-error" role="alert" hidden></p>
+        </form>
+        <div class="study-disclaimer" role="note" aria-label="Study disclaimer">
+          <p><strong>Study disclaimer:</strong> This tool is designed to support your exam preparation, but it may not include every topic from your course.</p>
+          <p>Use it as one study tool among many. Attend Exam Review workshops, and come to Math Study Hall when you are stuck.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="faq">
+      <div class="container">
+        <h2 class="section-title">FAQ</h2>
+        <details class="faq-item">
+          <summary>Is this an official Ontario Tech resource?</summary>
+          <p>Yes. Practice Exams is a study tool offered through the Teaching and Learning Centre's Student Learning Support team, developed to help students in math and statistics courses.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Where do the questions come from?</summary>
+          <p>From a curated bank of original practice questions written to mirror the style and difficulty of typical course exams. Every attempt pulls a random selection.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Should I rely only on this tool to study?</summary>
+          <p>No. This practice generator may not encompass all topics in your course. Use it as one part of your study plan, attend Exam Review workshops, and visit Math Study Hall for support when you are stuck.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What happens when I click Regenerate?</summary>
+          <p>Regenerate builds a new random set of questions for the same course, exam, and question count. If you want to keep your current set, copy and save its OTEX code first.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What is an OTEX code, and when should I use it?</summary>
+          <p>An OTEX code (Ontario Tech Exam eXchange code) recreates one exact practice set. Use it to reopen your own set later or share the same set with classmates for group study.</p>
+        </details>
+        <details class="faq-item">
+          <summary>My OTEX code is not loading. What should I do?</summary>
+          <p>Make sure you copied the full code and did not remove characters. You can paste either the OTEX code itself or the full exam link that contains <code>?code=...</code>.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why do I see Question IDs on each problem?</summary>
+          <p>Question IDs are lookup keys that help instructors and support staff map each question to solution banks and references. Students can ignore them if not needed.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What if topics from class are not appearing here?</summary>
+          <p>This bank may not cover every lecture topic. Keep using your course notes, assignments, textbook questions, Exam Review workshops, and Math Study Hall for full coverage.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <p class="footer-title">Ontario Tech University</p>
+        <p class="footer-meta">Teaching and Learning Centre · Student Learning Support</p>
+      </div>
+      <p class="footer-copy">© <span id="year"></span> Ontario Tech University</p>
+    </div>
+  </footer>
+
+  <script src="js/questions.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

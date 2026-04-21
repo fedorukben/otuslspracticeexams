@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practice Exam</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.45/dist/katex.min.css" integrity="sha384-UA8juhPf75SzzAMA/4fo3yOU7sBJ0om7SCD2GHq0fZqZco6tr1UCV7nUbk9J90JM" crossorigin="anonymous" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.45/dist/katex.min.js" integrity="sha384-Tt7wBxLKwSzFVRET4O4U9H6v8MNaQ/CjN2FMP4xFm0ErrFu6aNqoonRVW5W40iGI" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.45/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.jpeg" />
+  <link rel="alternate icon" href="assets/favicon.ico" />
+</head>
+<body class="exam-body">
+  <header class="site-header site-header-compact no-print">
+    <div class="container header-inner">
+      <a href="index.html" class="brand" aria-label="Ontario Tech University — Practice Exams home">
+        <img src="assets/ontario-tech-logo.jpeg" alt="Ontario Tech University" class="brand-logo"/>
+        <span class="brand-divider" aria-hidden="true"></span>
+        <span class="brand-product">Practice Exams</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="index.html">← New exam</a>
+      </nav>
+    </div>
+    <div class="header-accent" aria-hidden="true"></div>
+  </header>
+
+  <main class="exam-main">
+    <div class="container">
+      <div class="exam-toolbar no-print">
+        <div>
+          <p class="eyebrow" id="exam-eyebrow">Practice exam</p>
+          <h1 id="exam-title" class="exam-title">Loading…</h1>
+          <p id="exam-meta" class="exam-meta"></p>
+        </div>
+        <div class="exam-actions">
+          <button id="copy-code-btn" class="btn btn-secondary">Copy OTEX code</button>
+          <button id="regenerate-btn" class="btn btn-secondary">Regenerate</button>
+          <button id="print-btn" class="btn btn-primary">Print / save PDF</button>
+        </div>
+      </div>
+
+      <div id="exam-print-header" class="print-only">
+        <h1 id="print-title"></h1>
+        <p id="print-meta"></p>
+        <hr />
+      </div>
+
+      <ol id="exam-questions" class="exam-questions"></ol>
+
+      <div id="exam-error" class="exam-error" hidden>
+        <h2>We couldn't build that exam</h2>
+        <p id="exam-error-msg"></p>
+        <a href="index.html" class="btn btn-primary">Back to generator</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer no-print">
+    <div class="container footer-inner">
+      <div>
+        <p class="footer-title">Ontario Tech University</p>
+        <p class="footer-meta">Teaching and Learning Centre · Student Learning Support</p>
+      </div>
+      <p class="footer-copy">© <span id="year"></span> Ontario Tech University</p>
+    </div>
+  </footer>
+
+  <script defer src="js/questions.js"></script>
+  <script defer src="js/exam.js"></script>
+</body>
+</html>
