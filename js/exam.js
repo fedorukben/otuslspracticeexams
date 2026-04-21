@@ -134,6 +134,10 @@
   }
 
   function sampleWeighted(questions, n) {
+    if (examId === "midterm2") {
+      return sampleEvenByTopic(questions, n);
+    }
+
     const weights = {
       limitsContinuity: 0.55,
       derivatives: 0.20,
@@ -158,6 +162,45 @@
 
     Object.keys(targets).forEach((bucket) => {
       const picks = sample(categorized[bucket], targets[bucket]);
+      picks.forEach((q) => {
+        if (!selectedIds.has(q.id)) {
+          selected.push(q);
+          selectedIds.add(q.id);
+        }
+      });
+    });
+
+    if (selected.length < n) {
+      const leftovers = questions.filter((q) => !selectedIds.has(q.id));
+      const topUp = sample(leftovers, n - selected.length);
+      topUp.forEach((q) => selected.push(q));
+    }
+
+    return sample(selected, selected.length);
+  }
+
+  function sampleEvenByTopic(questions, n) {
+    const byTopic = {};
+    questions.forEach((q) => {
+      const key = String(q.topic || "other").trim().toLowerCase();
+      if (!byTopic[key]) byTopic[key] = [];
+      byTopic[key].push(q);
+    });
+
+    const topics = Object.keys(byTopic);
+    if (topics.length === 0) return sample(questions, n);
+
+    const equalWeights = {};
+    topics.forEach((topic) => {
+      equalWeights[topic] = 1 / topics.length;
+    });
+
+    const targets = computeBucketTargets(n, equalWeights);
+    const selected = [];
+    const selectedIds = new Set();
+
+    topics.forEach((topic) => {
+      const picks = sample(byTopic[topic], targets[topic] || 0);
       picks.forEach((q) => {
         if (!selectedIds.has(q.id)) {
           selected.push(q);

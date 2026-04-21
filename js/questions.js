@@ -1121,6 +1121,266 @@ const COURSES = {
             id: "m2-curve-05",
             topic: "4.8 curve sketching summary",
             prompt: "For $f(x)=xe^{-x}$, provide a complete first/second derivative analysis and sketch."
+          },
+          {
+            id: "m2-trig-04",
+            topic: "3.5 trig derivatives",
+            prompt: "Differentiate $y = \\sec x\\tan x$."
+          },
+          {
+            id: "m2-trig-05",
+            topic: "3.5 trig derivatives",
+            prompt: "Differentiate $f(x)=\\sin^2 x + \\cos^2 x$ and simplify."
+          },
+          {
+            id: "m2-trig-06",
+            topic: "3.5 trig derivatives",
+            prompt: "Differentiate $y = \\dfrac{\\tan x}{1+\\sec x}$."
+          },
+          {
+            id: "m2-trig-07",
+            topic: "3.5 trig derivatives",
+            prompt: "Differentiate $g(x)=\\csc(2x)$."
+          },
+          {
+            id: "m2-chain-05",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y = \\cos\\!\\left(\\sqrt{x}\\right)$."
+          },
+          {
+            id: "m2-chain-06",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $f(x)=\\left(1+3x^2\\right)^{-4}$."
+          },
+          {
+            id: "m2-chain-07",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\ln\\!\\left(\\sin x\\right)$."
+          },
+          {
+            id: "m2-chain-08",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $h(x)=\\sqrt{\\dfrac{1}{1-x^2}}$."
+          },
+          {
+            id: "m2-itrig-04",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $y=\\arcsin(5x)$."
+          },
+          {
+            id: "m2-itrig-05",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $f(x)=\\arctan\\!\\left(x^3\\right)$."
+          },
+          {
+            id: "m2-itrig-06",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $y=\\dfrac{\\arccos x}{x}$."
+          },
+          {
+            id: "m2-itrig-07",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Find $\\dfrac{d}{dx}\\left[\\arcsin\\!\\left(\\dfrac{x}{2}\\right)\\right]$."
+          },
+          {
+            id: "m2-impl-04",
+            topic: "3.8 implicit differentiation",
+            prompt: "For $x^2+xy+y^2=7$, find $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-impl-05",
+            topic: "3.8 implicit differentiation",
+            prompt: "Given $x^2y + \\sin y = 4$, compute $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-impl-06",
+            topic: "3.8 implicit differentiation",
+            prompt: "If $e^{xy}+x-y=0$, find $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-impl-07",
+            topic: "3.8 implicit differentiation",
+            prompt: "For $x^3+y^3=9$, find the slope of the tangent at $(2,1)$."
+          },
+          {
+            id: "m2-log-04",
+            topic: "3.9 logarithmic differentiation",
+            prompt: "Use logarithmic differentiation to find $\\dfrac{dy}{dx}$ for $y=(x^2+1)^x$."
+          },
+          {
+            id: "m2-log-05",
+            topic: "3.9 logarithmic differentiation",
+            prompt: "Differentiate $y=\\dfrac{x^3\\sqrt{x+1}}{(x-1)^4}$ using logarithmic differentiation."
+          },
+          {
+            id: "m2-log-06",
+            topic: "3.9 logarithmic differentiation",
+            prompt: "Use logarithmic differentiation to differentiate $y=(\\cos x)^{\\sin x}$."
+          },
+          {
+            id: "m2-log-07",
+            topic: "3.9 logarithmic differentiation",
+            prompt: "Differentiate $y=\\left(\\dfrac{x+2}{x-2}\\right)^{1/3}$ using logarithmic differentiation."
+          },
+          {
+            id: "m2-hyp-04",
+            topic: "6.9 hyperbolic derivatives",
+            prompt: "Differentiate $y=\\sinh(x^2+1)$."
+          },
+          {
+            id: "m2-hyp-05",
+            topic: "6.9 hyperbolic derivatives",
+            prompt: "Differentiate $f(x)=\\dfrac{\\cosh x}{\\sinh x}$."
+          },
+          {
+            id: "m2-hyp-06",
+            topic: "6.9 hyperbolic derivatives",
+            prompt: "Differentiate $y=\\ln(\\cosh x)$."
+          },
+          {
+            id: "m2-hyp-07",
+            topic: "6.9 hyperbolic derivatives",
+            prompt: "Differentiate $g(x)=\\tanh(3x-2)$."
+          },
+          {
+            id: "m2-rates-04",
+            topic: "4.1 related rates",
+            prompt: "Air is blown into a spherical tank so that its radius increases at $0.02$ m/s. How fast is volume changing when $r=1.5$ m?"
+          },
+          {
+            id: "m2-rates-05",
+            topic: "4.1 related rates",
+            prompt: "A car moves away from an intersection east at $18$ m/s while another car moves north at $24$ m/s. How fast is the distance between them changing 5 s after both pass the intersection?"
+          },
+          {
+            id: "m2-rates-06",
+            topic: "4.1 related rates",
+            prompt: "A spotlight on the ground is 20 m from a wall. A person 1.8 m tall walks from the spotlight toward the wall at 1.5 m/s. How fast is the tip of the shadow moving up the wall when the person is 8 m from the light?"
+          },
+          {
+            id: "m2-rates-07",
+            topic: "4.1 related rates",
+            prompt: "Sand falls into a conical pile at $12\\,\\text{m}^3/\\text{min}$. If the pile keeps shape with height equal to radius, how fast is the height increasing when $h=3$ m?"
+          },
+          {
+            id: "m2-lin-04",
+            topic: "4.2 linear approximation and differentials",
+            prompt: "Use linearization at $a=9$ to approximate $\\sqrt{8.9}$."
+          },
+          {
+            id: "m2-lin-05",
+            topic: "4.2 linear approximation and differentials",
+            prompt: "Use differentials to estimate the change in area of a circle when radius changes from 10 cm to 10.2 cm."
+          },
+          {
+            id: "m2-lin-06",
+            topic: "4.2 linear approximation and differentials",
+            prompt: "Estimate $\\dfrac{1}{4.1}$ using linearization of $f(x)=1/x$ at $a=4$."
+          },
+          {
+            id: "m2-lin-07",
+            topic: "4.2 linear approximation and differentials",
+            prompt: "Use linear approximation at $a=0$ to estimate $e^{0.04}$."
+          },
+          {
+            id: "m2-opt-04",
+            topic: "4.3 min/max",
+            prompt: "Find the dimensions of a rectangle with perimeter 40 m that maximize area."
+          },
+          {
+            id: "m2-opt-05",
+            topic: "4.3 min/max",
+            prompt: "Find the point on $y=x^2$ closest to $(0,3)$."
+          },
+          {
+            id: "m2-opt-06",
+            topic: "4.3 min/max",
+            prompt: "Find absolute extrema of $f(x)=x+\\dfrac{4}{x}$ on $[1,5]$."
+          },
+          {
+            id: "m2-opt-07",
+            topic: "4.3 min/max",
+            prompt: "A closed cylinder has fixed volume $100\\pi\\,\\text{cm}^3$. Find dimensions minimizing surface area."
+          },
+          {
+            id: "m2-mvt-04",
+            topic: "4.4 MVT",
+            prompt: "Find all numbers $c$ satisfying the Mean Value Theorem for $f(x)=\\sqrt{x}$ on $[1,9]$."
+          },
+          {
+            id: "m2-mvt-05",
+            topic: "4.4 MVT",
+            prompt: "Use Rolle's Theorem on $f(x)=x^3-3x$ over $[-\\sqrt{3},\\sqrt{3}]$ and find all valid $c$."
+          },
+          {
+            id: "m2-mvt-06",
+            topic: "4.4 MVT",
+            prompt: "If $f$ is differentiable on $[0,2]$, continuous on $[0,2]$, and $f(0)=1$, $f(2)=7$, show that some $c\\in(0,2)$ has $f'(c)=3$."
+          },
+          {
+            id: "m2-mvt-07",
+            topic: "4.4 MVT",
+            prompt: "Given $f'(x)\\ge 0$ on $(a,b)$, explain using MVT why $f$ is increasing on $[a,b]$."
+          },
+          {
+            id: "m2-curve-06",
+            topic: "4.5 curve sketching",
+            prompt: "For $f(x)=x^3-6x^2+9x$, determine critical points, local extrema, and intervals of increase/decrease."
+          },
+          {
+            id: "m2-curve-07",
+            topic: "4.5 curve sketching",
+            prompt: "For $f(x)=\\dfrac{x^2}{x+1}$, analyze monotonicity, concavity, and inflection points."
+          },
+          {
+            id: "m2-curve-08",
+            topic: "4.5 curve sketching",
+            prompt: "Find where $f(x)=x^4-8x^2$ is concave up/down and locate inflection points."
+          },
+          {
+            id: "m2-curve-09",
+            topic: "4.5 curve sketching",
+            prompt: "Perform first and second derivative tests for $f(x)=x^{2/3}(x-2)$."
+          },
+          {
+            id: "m2-lhop-04",
+            topic: "4.6 l'Hopital's rule",
+            prompt: "Evaluate $\\displaystyle \\lim_{x\\to 0}\\dfrac{\\sin x - x}{x^3}$ using l'Hopital's Rule."
+          },
+          {
+            id: "m2-lhop-05",
+            topic: "4.6 l'Hopital's rule",
+            prompt: "Evaluate $\\displaystyle \\lim_{x\\to \\infty}\\dfrac{x}{e^x}$ using l'Hopital's Rule."
+          },
+          {
+            id: "m2-lhop-06",
+            topic: "4.6 l'Hopital's rule",
+            prompt: "Evaluate $\\displaystyle \\lim_{x\\to 0}\\dfrac{\\ln(1+x)}{x}$ using l'Hopital's Rule."
+          },
+          {
+            id: "m2-lhop-07",
+            topic: "4.6 l'Hopital's rule",
+            prompt: "Evaluate $\\displaystyle \\lim_{x\\to \\infty}\\left(1+\\dfrac{1}{x}\\right)^x$ by converting to a logarithmic limit and applying l'Hopital's Rule."
+          },
+          {
+            id: "m2-curve-10",
+            topic: "4.8 curve sketching summary",
+            prompt: "Sketch $f(x)=\\dfrac{x+1}{x^2+1}$ using derivative tests, concavity, and end behavior."
+          },
+          {
+            id: "m2-curve-11",
+            topic: "4.8 curve sketching summary",
+            prompt: "Give a full curve sketch for $f(x)=\\dfrac{x^2-1}{x^2+1}$ including intercepts, extrema, concavity, and asymptotic behavior."
+          },
+          {
+            id: "m2-curve-12",
+            topic: "4.8 curve sketching summary",
+            prompt: "Perform complete derivative-based graph analysis for $f(x)=\\ln(x)-x$ on its domain."
+          },
+          {
+            id: "m2-curve-13",
+            topic: "4.8 curve sketching summary",
+            prompt: "Sketch $f(x)=x^2e^{-x}$ by identifying critical points, inflection points, and end behavior."
           }
         ]
       },
