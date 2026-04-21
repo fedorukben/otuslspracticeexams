@@ -911,22 +911,216 @@ const COURSES = {
 
       "midterm2": {
         name: "Midterm 2",
-        topics: ["chain rule", "implicit differentiation", "related rates"],
+        topics: [
+          "3.5 trig derivatives",
+          "3.6 chain rule",
+          "3.7 inverse trig derivatives",
+          "3.8 implicit differentiation",
+          "3.9 logarithmic differentiation",
+          "6.9 hyperbolic derivatives",
+          "4.1 related rates",
+          "4.2 linear approximation and differentials",
+          "4.3 local/global extrema",
+          "4.4 Mean Value Theorem",
+          "4.5 curve sketching",
+          "4.6 L'Hopital's rule",
+          "4.8 curve sketching summary"
+        ],
         questions: [
           {
+            id: "m2-trig-01",
+            topic: "3.5 trig derivatives",
+            prompt: "Differentiate $f(x) = 4\\sin x - 3\\cos x + \\tan x$."
+          },
+          {
+            id: "m2-trig-02",
+            topic: "3.5 trig derivatives",
+            prompt: "Differentiate $y = x^2\\sin x$."
+          },
+          {
+            id: "m2-trig-03",
+            topic: "3.5 trig derivatives",
+            prompt: "Differentiate $g(x) = \\dfrac{\\sin x}{x}$."
+          },
+          {
             id: "m2-chain-01",
-            topic: "chain rule",
+            topic: "3.6 chain rule",
             prompt: "Differentiate $h(x) = \\sin(3x^2 + 1)$."
           },
           {
+            id: "m2-chain-02",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y = (5x - 2)^7$."
+          },
+          {
+            id: "m2-chain-03",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $f(x) = \\sqrt{1 + x^4}$."
+          },
+          {
+            id: "m2-chain-04",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y = e^{\\sin(2x)}$."
+          },
+          {
+            id: "m2-itrig-01",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $y = \\arctan(3x)$."
+          },
+          {
+            id: "m2-itrig-02",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $f(x) = x\\arcsin x$."
+          },
+          {
+            id: "m2-itrig-03",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $g(x) = \\arccos(2x^2)$."
+          },
+          {
             id: "m2-impl-01",
-            topic: "implicit differentiation",
+            topic: "3.8 implicit differentiation",
             prompt: "Find $\\dfrac{dy}{dx}$ for the curve $x^2 + y^2 = 25$."
           },
           {
+            id: "m2-impl-02",
+            topic: "3.8 implicit differentiation",
+            prompt: "Given $x^3 + y^3 = 6xy$, find $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-impl-03",
+            topic: "3.8 implicit differentiation",
+            prompt: "For $x^2y + y^2 = 10$, find $\\dfrac{dy}{dx}$."
+          },
+          {
+            id: "m2-log-01",
+            topic: "3.9 logarithmic differentiation",
+            prompt: "Use logarithmic differentiation to find $\\dfrac{dy}{dx}$ if $y = x^x$ for $x>0$."
+          },
+          {
+            id: "m2-log-02",
+            topic: "3.9 logarithmic differentiation",
+            prompt: "Use logarithmic differentiation to differentiate $y = \\dfrac{(x^2+1)^5\\sqrt{x-1}}{(x-2)^3}$."
+          },
+          {
+            id: "m2-log-03",
+            topic: "3.9 logarithmic differentiation",
+            prompt: "Differentiate $y = (\\sin x)^{\\cos x}$ using logarithmic differentiation."
+          },
+          {
+            id: "m2-hyp-01",
+            topic: "6.9 hyperbolic derivatives",
+            prompt: "Differentiate $f(x) = \\sinh(4x) - 3\\cosh x$."
+          },
+          {
+            id: "m2-hyp-02",
+            topic: "6.9 hyperbolic derivatives",
+            prompt: "Differentiate $y = x\\tanh x$."
+          },
+          {
+            id: "m2-hyp-03",
+            topic: "6.9 hyperbolic derivatives",
+            prompt: "Differentiate $g(x) = \\cosh(x^2)$."
+          },
+          {
             id: "m2-rates-01",
-            topic: "related rates",
-            prompt: "A spherical balloon is being inflated so that its volume increases at $10 \\text{ cm}^3/\\text{s}$. How fast is the radius changing when $r = 5$ cm?"
+            topic: "4.1 related rates",
+            prompt: "A spherical balloon is being inflated so that its volume increases at $10 \\\\text{cm}^3/\\\\text{s}$. How fast is the radius changing when $r = 5$ cm?"
+          },
+          {
+            id: "m2-rates-02",
+            topic: "4.1 related rates",
+            prompt: "A 10 m ladder slides down a wall. If the bottom moves away from the wall at $0.8$ m/s, how fast is the top sliding down when the bottom is 6 m from the wall?"
+          },
+          {
+            id: "m2-rates-03",
+            topic: "4.1 related rates",
+            prompt: "Water is poured into a cone of height 12 cm and radius 4 cm at $3 \\\\text{cm}^3/\\\\text{s}$. How fast is the water level rising when the depth is 6 cm?"
+          },
+          {
+            id: "m2-lin-01",
+            topic: "4.2 linear approximation and differentials",
+            prompt: "Use linear approximation at $a=4$ to estimate $\\sqrt{4.1}$."
+          },
+          {
+            id: "m2-lin-02",
+            topic: "4.2 linear approximation and differentials",
+            prompt: "For $f(x)=x^3$, use differentials to approximate the change in $f$ when $x$ changes from 2 to 2.02."
+          },
+          {
+            id: "m2-lin-03",
+            topic: "4.2 linear approximation and differentials",
+            prompt: "Estimate $(1.98)^5$ using linearization of $f(x)=x^5$ at $x=2$."
+          },
+          {
+            id: "m2-opt-01",
+            topic: "4.3 min/max",
+            prompt: "Find the absolute maximum and minimum values of $f(x)=x^3-3x^2+1$ on $[-1,3]$."
+          },
+          {
+            id: "m2-opt-02",
+            topic: "4.3 min/max",
+            prompt: "A rectangle is inscribed under $y=12-x^2$ above the $x$-axis. Find the dimensions that maximize area."
+          },
+          {
+            id: "m2-opt-03",
+            topic: "4.3 min/max",
+            prompt: "Find all local extrema of $f(x)=x^4-4x^3$."
+          },
+          {
+            id: "m2-mvt-01",
+            topic: "4.4 MVT",
+            prompt: "Verify that $f(x)=x^2-4x$ satisfies the hypotheses of the Mean Value Theorem on $[0,5]$, then find all $c$ in $(0,5)$ that satisfy the conclusion."
+          },
+          {
+            id: "m2-mvt-02",
+            topic: "4.4 MVT",
+            prompt: "Apply Rolle's Theorem to $f(x)=x^2-6x+8$ on $[2,4]$."
+          },
+          {
+            id: "m2-mvt-03",
+            topic: "4.4 MVT",
+            prompt: "Suppose $f'(x)\\le 2$ for all $x\\in[1,6]$ and $f(1)=3$. What is the largest possible value of $f(6)$? Justify using the Mean Value Theorem."
+          },
+          {
+            id: "m2-curve-01",
+            topic: "4.5 curve sketching",
+            prompt: "For $f(x)=x^3-3x$, find intervals of increase/decrease and all local extrema."
+          },
+          {
+            id: "m2-curve-02",
+            topic: "4.5 curve sketching",
+            prompt: "For $f(x)=x^4-4x^2$, determine intervals of concavity and all inflection points."
+          },
+          {
+            id: "m2-lhop-01",
+            topic: "4.6 l'Hopital's rule",
+            prompt: "Evaluate $\\displaystyle \\lim_{x\\to 0}\\dfrac{e^x-1-x}{x^2}$ using l'Hopital's Rule."
+          },
+          {
+            id: "m2-lhop-02",
+            topic: "4.6 l'Hopital's rule",
+            prompt: "Evaluate $\\displaystyle \\lim_{x\\to \\infty}\\dfrac{\\ln x}{x}$ using l'Hopital's Rule."
+          },
+          {
+            id: "m2-lhop-03",
+            topic: "4.6 l'Hopital's rule",
+            prompt: "Evaluate $\\displaystyle \\lim_{x\\to 0^+}x\\ln x$ by rewriting to apply l'Hopital's Rule."
+          },
+          {
+            id: "m2-curve-03",
+            topic: "4.8 curve sketching summary",
+            prompt: "Sketch the graph of $f(x)=\\dfrac{x}{x^2+1}$ by identifying intercepts, symmetry, critical points, concavity, inflection points, and end behavior."
+          },
+          {
+            id: "m2-curve-04",
+            topic: "4.8 curve sketching summary",
+            prompt: "Sketch the graph of $f(x)=\\dfrac{x^2}{x-1}$ by finding domain, intercepts, asymptotes, intervals of increase/decrease, and concavity."
+          },
+          {
+            id: "m2-curve-05",
+            topic: "4.8 curve sketching summary",
+            prompt: "For $f(x)=xe^{-x}$, provide a complete first/second derivative analysis and sketch."
           }
         ]
       },
