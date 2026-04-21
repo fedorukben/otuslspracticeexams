@@ -164,6 +164,9 @@
     if (courseId === "math1020u" && examId === "readiness") {
       return sampleEvenByTopic(pool, n);
     }
+    if (courseId === "stat2800u" && examId === "midterm1") {
+      return sampleEvenByTopic(pool, n);
+    }
     if (courseId === "math1020u" && examId === "midterm1") {
       return sampleMath1020Midterm1(pool, n);
     }
@@ -225,9 +228,17 @@
     [
       { key: "midterm1", bank: midterm1 },
       { key: "midterm2", bank: midterm2 },
-      { key: "postMidterm2", bank: finalOwn }
-    ].forEach(({ key, bank }) => {
-      const picks = sample(bank, targets[key] || 0);
+      {
+        key: "postMidterm2",
+        bank: finalOwn,
+        pick:
+          courseId === "stat2800u"
+            ? (bank, target) => sampleEvenByTopic(bank, target)
+            : (bank, target) => sample(bank, target)
+      }
+    ].forEach(({ key, bank, pick }) => {
+      const picker = pick || ((b, t) => sample(b, t));
+      const picks = picker(bank, targets[key] || 0);
       picks.forEach((q) => {
         if (!selectedIds.has(q.id)) {
           selected.push(q);

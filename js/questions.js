@@ -2272,19 +2272,50 @@ const COURSES = {
     exams: {
       "midterm1": {
         name: "Midterm 1",
-        topics: ["descriptive statistics", "probability"],
-        questions: [
-          {
-            id: "s-m1-01",
-            topic: "descriptive statistics",
-            prompt: "A dataset has values $\\{4, 8, 6, 5, 3, 7, 9\\}$. Compute the mean, median, and sample standard deviation."
-          },
-          {
-            id: "s-m1-02",
-            topic: "probability",
-            prompt: "Two fair six-sided dice are rolled. What is the probability that the sum is at least 10?"
-          }
-        ]
+        topics: [
+          "sampling",
+          "summary statistics",
+          "graphical summaries",
+          "basic ideas",
+          "counting methods",
+          "conditional probability",
+          "independence",
+          "random variables",
+          "the binomial distribution"
+        ],
+        questions: []
+      },
+      "midterm2": {
+        name: "Midterm 2",
+        topics: [
+          "binomial distribution",
+          "poisson distribution",
+          "normal distribution",
+          "lognormal distribution",
+          "exponential distribution",
+          "weibull distribution",
+          "central limit theorem and confidence intervals",
+          "confidence intervals — population mean, variance known",
+          "confidence intervals — population mean, variance unknown"
+        ],
+        questions: []
+      },
+      "final": {
+        name: "Final Exam",
+        topics: [
+          "confidence intervals — difference between two means",
+          "confidence intervals — paired data",
+          "hypothesis tests — population mean, variance known",
+          "hypothesis tests — drawing conclusions",
+          "hypothesis tests — population mean, variance unknown",
+          "hypothesis tests — difference between two means",
+          "hypothesis tests — paired data",
+          "correlation",
+          "least squares line",
+          "control charts — variables",
+          "control charts — attributes"
+        ],
+        questions: []
       }
     }
   }
@@ -2296,6 +2327,317 @@ function formatDecimal(x, places) {
   if (typeof x !== "number" || !Number.isFinite(x)) return x;
   return Number.parseFloat(x.toFixed(p));
 }
+
+// STAT 2800U — Midterm 1: nine equal topic buckets for even-by-topic sampling.
+(function buildStat2800Midterm1() {
+  const course = COURSES.stat2800u;
+  if (!course || !course.exams || !course.exams.midterm1) return;
+  const qs = course.exams.midterm1.questions;
+  if (qs.length > 0) return;
+
+  const perTopic = 24;
+  let n = 0;
+
+  function push(topic, prompt) {
+    n += 1;
+    qs.push({
+      id: `statm1-${String(n).padStart(3, "0")}`,
+      topic,
+      prompt
+    });
+  }
+
+  function addBlock(topic, makePrompt) {
+    for (let k = 0; k < perTopic; k++) {
+      push(topic, makePrompt(k));
+    }
+  }
+
+  addBlock("sampling", (k) => {
+    const designs = [
+      `Explain what a <em>simple random sample (SRS)</em> means in the context of auditing ${50 + k * 3}$ invoices from a large warehouse.`,
+      `Compare <em>stratified sampling</em> versus <em>cluster sampling</em> for estimating average commute time across campus buildings.`,
+      `A survey uses voluntary online responses. Name one major source of <em>bias</em> and suggest a better sampling approach.`,
+      `Define the <em>sampling frame</em> if you want to sample Ontario Tech undergraduate engineering students enrolled this term.`
+    ];
+    return designs[k % designs.length];
+  });
+
+  addBlock("summary statistics", (k) => {
+    const a = 2 + (k % 5);
+    const b = 5 + (k % 7);
+    const c = 1 + (k % 4);
+    return `For the small dataset $\\{${a},${b},${c},${a + b},${b - c}\\}$, compute the <em>sample mean</em>, <em>sample median</em>, and <em>sample standard deviation</em> (use $n-1$ in the denominator).`;
+  });
+
+  addBlock("graphical summaries", (k) => {
+    const g = [
+      `Interpret a <em>histogram</em>: explain what the vertical scale represents when counts are used versus when relative frequency is used.`,
+      `What features of a <em>boxplot</em> correspond to center, spread, and skewness? Where do potential outliers appear?`,
+      `Describe when a <em>stem-and-leaf plot</em> is preferable to a histogram for communicating raw data to an engineering team.`,
+      `A bar chart shows categories on the $x$-axis. Why is a bar chart <em>not</em> the same graphical tool as a histogram for numeric measurements?`
+    ];
+    return g[k % g.length];
+  });
+
+  addBlock("basic ideas", (k) => {
+    const ideas = [
+      `Distinguish a <em>population</em> from a <em>sample</em>, and a <em>parameter</em> from a <em>statistic</em> using one concrete engineering example.`,
+      `Explain why natural variability implies that two samples from the same process will usually differ, even if nothing changed.`,
+      `Define <em>confounding</em> in one sentence and give an example where a measured association might not imply causation.`,
+      `What does it mean to say an estimator is <em>unbiased</em> in repeated sampling?`
+    ];
+    return ideas[k % ideas.length];
+  });
+
+  addBlock("counting methods", (k) => {
+    const m = 4 + (k % 4);
+    const r = 2 + (k % 3);
+    const forms = [
+      `How many ${m}-letter codes can be formed from an alphabet of ${r} distinct symbols if <em>repetition is allowed</em>?`,
+      `How many ways can you arrange ${m} distinct sensors in a row?`,
+      `A committee of size ${r} is chosen from ${m} distinct engineers. How many committees are possible if order does not matter?`,
+      `Use the multiplication rule: a system has ${m} independent components each with ${r} failure modes. How many joint outcomes are possible?`
+    ];
+    return forms[k % forms.length];
+  });
+
+  addBlock("conditional probability", (k) => {
+    const pB = formatDecimal(0.35 + (k % 5) * 0.05, 2);
+    const pAB = formatDecimal(0.1 + (k % 4) * 0.02, 2);
+    return `Given $P(B)=${pB}$ and $P(A\\cap B)=${pAB}$, compute $P(A\\mid B)$ and interpret the result in words.`;
+  });
+
+  addBlock("independence", (k) => {
+    const rows = [
+      { pA: 0.5, pB: 0.4 },
+      { pA: 0.6, pB: 0.5 },
+      { pA: 0.4, pB: 0.25 },
+      { pA: 0.5, pB: 0.6 }
+    ];
+    const row = rows[k % rows.length];
+    const pA = row.pA;
+    const pB = row.pB;
+    const product = formatDecimal(pA * pB, 3);
+    const cap = Math.min(pA, pB) - 0.01;
+    const jointObs =
+      k % 2 === 0
+        ? product
+        : formatDecimal(Math.min(product + 0.06, cap), 3);
+    return `Suppose $P(A)=${pA}$, $P(B)=${pB}$, and $P(A\\cap B)=${jointObs}$. Are $A$ and $B$ independent? Justify using the definition of independence.`;
+  });
+
+  addBlock("random variables", (k) => {
+    const x1 = k % 3;
+    const x2 = (k + 1) % 3;
+    const x3 = (k + 2) % 3;
+    const triples = [
+      [0.2, 0.3, 0.5],
+      [0.25, 0.25, 0.5],
+      [0.1, 0.3, 0.6],
+      [0.4, 0.35, 0.25]
+    ];
+    const [p1, p2, p3] = triples[k % triples.length];
+    return `Discrete $X$ takes values $\\{${x1},${x2},${x3}\\}$ with $P(X=${x1})=${p1}$, $P(X=${x2})=${p2}$, $P(X=${x3})=${p3}$. Find $E[X]$ and $\\mathrm{Var}(X)$.`;
+  });
+
+  addBlock("the binomial distribution", (k) => {
+    const nTrials = 8 + (k % 6);
+    const p = formatDecimal(0.25 + (k % 5) * 0.05, 2);
+    const x = 2 + (k % 4);
+    return `Let $X\\sim \\mathrm{Bin}(${nTrials},${p})$. Compute $P(X=${x})$ and $P(X\\le ${x})$ (you may leave factorials unsimplified if you prefer).`;
+  });
+})();
+
+// STAT 2800U — Midterm 2: nine equal topic buckets for even-by-topic sampling.
+(function buildStat2800Midterm2() {
+  const course = COURSES.stat2800u;
+  if (!course || !course.exams || !course.exams.midterm2) return;
+  const qs = course.exams.midterm2.questions;
+  if (qs.length > 0) return;
+
+  const perTopic = 24;
+  let n = 0;
+
+  function push(topic, prompt) {
+    n += 1;
+    qs.push({
+      id: `statm2-${String(n).padStart(3, "0")}`,
+      topic,
+      prompt
+    });
+  }
+
+  function addBlock(topic, makePrompt) {
+    for (let k = 0; k < perTopic; k++) {
+      push(topic, makePrompt(k));
+    }
+  }
+
+  addBlock("binomial distribution", (k) => {
+    const nTrials = 12 + (k % 8);
+    const p = formatDecimal(0.15 + (k % 6) * 0.05, 2);
+    const r = 3 + (k % 5);
+    return `Let $Y\\sim \\mathrm{Bin}(${nTrials},${p})$. Compute $E[Y]$, $\\mathrm{Var}(Y)$, and $P(Y=${r})$.`;
+  });
+
+  addBlock("poisson distribution", (k) => {
+    const lam = 1.5 + (k % 10) * 0.5;
+    const lambda = formatDecimal(lam, 2);
+    const j = 2 + (k % 4);
+    return `Counts of rare defects per hour follow $N\\sim \\mathrm{Pois}(${lambda})$. Find $P(N=${j})$ and $P(N\\ge 1)$.`;
+  });
+
+  addBlock("normal distribution", (k) => {
+    const mu = 50 + (k % 9) * 3;
+    const sigma = 4 + (k % 5);
+    const a = mu - sigma;
+    const b = mu + 2 * sigma;
+    return `Let $X\\sim \\mathcal{N}(${mu},\\,${sigma}^{2})$. Express $P(${a}<X<${b})$ as a standard normal probability involving $Z$.`;
+  });
+
+  addBlock("lognormal distribution", (k) => {
+    const muL = formatDecimal(1.2 + (k % 5) * 0.1, 2);
+    const sigL = formatDecimal(0.25 + (k % 4) * 0.05, 2);
+    return `If $\\ln T \\sim \\mathcal{N}(${muL},\\,${sigL}^{2})$, state the distribution name of $T$ and write $E[T]$ in terms of $\\mu$ and $\\sigma$ for the underlying normal.`;
+  });
+
+  addBlock("exponential distribution", (k) => {
+    const beta = formatDecimal(0.4 + (k % 7) * 0.1, 2);
+    const t = 1 + (k % 5);
+    return `Let lifetime $T\\sim \\mathrm{Exp}(\\text{mean }\\beta=${beta})$ (hours). Find $P(T>${t})$ and state the <em>memoryless property</em> in one sentence.`;
+  });
+
+  addBlock("weibull distribution", (k) => {
+    const eta = 100 + (k % 8) * 10;
+    const mshape = 1.5 + (k % 5) * 0.5;
+    const shape = formatDecimal(mshape, 2);
+    return `In reliability engineering, a Weibull model uses scale $\\eta=${eta}$ and shape $\\beta=${shape}$. Explain how $\\beta<1$, $\\beta=1$, and $\\beta>1$ affect the hazard shape (increasing/decreasing/constant).`;
+  });
+
+  addBlock("central limit theorem and confidence intervals", (k) => {
+    const n = 25 + (k % 15) * 5;
+    return `Explain the <em>Central Limit Theorem</em> role in approximating the sampling distribution of $\\bar{X}$ when $n=${n}$ is large, even if individual measurements are not normal. Connect this idea to why a confidence interval for a mean has a normal or $t$ multiplier.`;
+  });
+
+  addBlock("confidence intervals — population mean, variance known", (k) => {
+    const n = 16 + (k % 10) * 2;
+    const xbar = formatDecimal(10.2 + (k % 7) * 0.3, 2);
+    const sigma = formatDecimal(1.5 + (k % 5) * 0.2, 2);
+    const confPct = [90, 95, 99][k % 3];
+    return `A random sample of size $n=${n}$ yields $\\bar{x}=${xbar}$ from a population with known $\\sigma=${sigma}$. Construct a two-sided ${confPct}\\% confidence interval for $\\mu$ using the normal pivot (state the formula with $z_{\\alpha/2}$).`;
+  });
+
+  addBlock("confidence intervals — population mean, variance unknown", (k) => {
+    const n = 12 + (k % 9) * 2;
+    const xbar = formatDecimal(4.7 + (k % 6) * 0.15, 2);
+    const s = formatDecimal(0.6 + (k % 5) * 0.08, 2);
+    const confPct = [90, 95, 99][k % 3];
+    return `For $n=${n}$, $\\bar{x}=${xbar}$, and sample standard deviation $s=${s}$, construct a two-sided ${confPct}\\% confidence interval for $\\mu$ when $\\sigma$ is <em>unknown</em> (use the appropriate $t$ critical value notation).`;
+  });
+})();
+
+// STAT 2800U — Final Exam post-midterm bank (11 equal topic buckets). Final composite 25/25/50 is handled in exam.js.
+(function buildStat2800Final() {
+  const course = COURSES.stat2800u;
+  if (!course || !course.exams || !course.exams.final) return;
+  const qs = course.exams.final.questions;
+  if (qs.length > 0) return;
+
+  const perTopic = 20;
+  let n = 0;
+
+  function push(topic, prompt) {
+    n += 1;
+    qs.push({
+      id: `statf-${String(n).padStart(3, "0")}`,
+      topic,
+      prompt
+    });
+  }
+
+  function addBlock(topic, makePrompt) {
+    for (let k = 0; k < perTopic; k++) {
+      push(topic, makePrompt(k));
+    }
+  }
+
+  addBlock("confidence intervals — difference between two means", (k) => {
+    const n1 = 18 + (k % 6) * 2;
+    const n2 = 20 + (k % 5) * 2;
+    const dbar = formatDecimal(1.2 + (k % 8) * 0.15, 2);
+    const se = formatDecimal(0.35 + (k % 5) * 0.05, 2);
+    const confPct = [90, 95, 99][k % 3];
+    return `Two independent samples have sizes $n_1=${n1}$ and $n_2=${n2}$ with difference in sample means $\\bar{x}_1-\\bar{x}_2=${dbar}$ and <em>estimated standard error</em> $\\mathrm{SE}=${se}$ (appropriate formula already applied). Construct an approximate ${confPct}\\% two-sided CI for $\\mu_1-\\mu_2$ using a normal critical value (state $z_{\\alpha/2}$ notation).`;
+  });
+
+  addBlock("confidence intervals — paired data", (k) => {
+    const m = 12 + (k % 7) * 2;
+    const db = formatDecimal(0.4 + (k % 6) * 0.08, 2);
+    const sd = formatDecimal(0.55 + (k % 5) * 0.07, 2);
+    const confPct = [90, 95, 99][k % 3];
+    return `Paired differences $d_i$ for $m=${m}$ pairs have mean $\\bar{d}=${db}$ and sample standard deviation $s_d=${sd}$. Construct a ${confPct}\\% CI for the mean paired change $\\mu_d$ using the paired $t$ procedure (show degrees of freedom).`;
+  });
+
+  addBlock("hypothesis tests — population mean, variance known", (k) => {
+    const n = 25 + (k % 10) * 3;
+    const xbar = formatDecimal(102 + (k % 9) * 0.4, 2);
+    const mu0 = 100;
+    const sigma = formatDecimal(4.5 + (k % 4) * 0.3, 2);
+    const alpha = [0.05, 0.01, 0.1][k % 3];
+    const alphaStr = formatDecimal(alpha, 2);
+    return `Assume $X_i$ are normal with known $\\sigma=${sigma}$. Test $H_0:\\mu=${mu0}$ versus $H_1:\\mu\\neq ${mu0}$ using $\\bar{x}=${xbar}$ from $n=${n}$. Write the $z$ test statistic and the rejection rule at significance level $\\alpha=${alphaStr}$.`;
+  });
+
+  addBlock("hypothesis tests — drawing conclusions", (k) => {
+    const pval = formatDecimal(0.02 + (k % 8) * 0.01, 3);
+    const alpha = 0.05;
+    return `A hypothesis test reports $P\\text{-value}=${pval}$ for a two-sided test with $\\alpha=${alpha}$. State your conclusion about $H_0$ in plain engineering language and mention the risk of a Type I error at most $\\alpha$.`;
+  });
+
+  addBlock("hypothesis tests — population mean, variance unknown", (k) => {
+    const n = 15 + (k % 8) * 2;
+    const xbar = formatDecimal(7.1 + (k % 5) * 0.12, 2);
+    const mu0 = 7;
+    const s = formatDecimal(0.45 + (k % 6) * 0.06, 2);
+    return `For $n=${n}$, $\\bar{x}=${xbar}$, $s=${s}$, test $H_0:\\mu=${mu0}$ vs $H_1:\\mu>${mu0}$. Write the one-sample $t$ statistic and give the degrees of freedom.`;
+  });
+
+  addBlock("hypothesis tests — difference between two means", (k) => {
+    const n1 = 22 + (k % 5);
+    const n2 = 24 + (k % 6);
+    const diff = formatDecimal(0.6 + (k % 7) * 0.1, 2);
+    const se = formatDecimal(0.22 + (k % 5) * 0.03, 2);
+    return `Independent samples yield $\\bar{x}_1-\\bar{x}_2=${diff}$ with standard error $\\mathrm{SE}=${se}$ (from $n_1=${n1}$, $n_2=${n2}$). Test $H_0:\\mu_1-\\mu_2=0$ vs $H_1:\\mu_1-\\mu_2\\neq 0$ using a two-sided $z$ test (large-sample setting). Write the test statistic.`;
+  });
+
+  addBlock("hypothesis tests — paired data", (k) => {
+    const m = 14 + (k % 6) * 2;
+    const tstat = formatDecimal(2.1 + (k % 5) * 0.15, 2);
+    return `For $m=${m}$ paired differences, a paired $t$ test yields $t=${tstat}$. State the degrees of freedom and the hypotheses being tested about $\\mu_d$.`;
+  });
+
+  addBlock("correlation", (k) => {
+    const r = formatDecimal(-0.85 + (k % 12) * 0.05, 2);
+    return `Sample correlation is $r=${r}$ between two process variables. Interpret the strength and direction, and explain why correlation alone does not imply causation in an industrial setting.`;
+  });
+
+  addBlock("least squares line", (k) => {
+    const b1 = formatDecimal(1.4 + (k % 6) * 0.1, 2);
+    const b0 = formatDecimal(3.2 + (k % 5) * 0.15, 2);
+    return `A least-squares fit yields $\\hat{y}=${b0}+${b1}x$. Interpret $b_1$ as a <em>marginal change</em> in predicted response, and state the residual for an observation $(x,y)=(2,8)$.`;
+  });
+
+  addBlock("control charts — variables", (k) => {
+    const nsub = 4 + (k % 4);
+    return `Explain how an $\\bar{X}$ chart with subgroup size $n=${nsub}$ monitors a continuous quality characteristic. Include the roles of center line and control limits (use $3\\sigma_{\\bar{X}}$ language).`;
+  });
+
+  addBlock("control charts — attributes", (k) => {
+    const n = 200 + (k % 5) * 50;
+    return `Describe a $p$-chart for defect proportion when each inspection unit has sample size $n=${n}$ items. What is plotted on the vertical axis, and what distributional assumption supports the control limits?`;
+  });
+})();
 
 // MATH 1020U — Midterm 1 bank (~same scale as MATH 1010 Midterm 1). Topics use Ch2/Ch3 prefixes for weighted sampling.
 (function buildMath1020Midterm1() {
