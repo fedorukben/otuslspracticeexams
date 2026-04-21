@@ -1972,6 +1972,46 @@ const COURSES = {
   }
 };
 
+// Expand MATH 1010U banks with generated variants so each gets +100 questions.
+// This keeps the question file maintainable while significantly increasing pool size.
+(function expandMathBanks() {
+  const math = COURSES.math1010u;
+  if (!math || !math.exams) return;
+
+  function addVariants(questions, addCount, makeId) {
+    if (!Array.isArray(questions) || questions.length === 0 || addCount <= 0) return;
+    const base = questions.slice();
+    for (let i = 0; i < addCount; i++) {
+      const src = base[i % base.length];
+      const variantNo = Math.floor(i / base.length) + 2;
+      questions.push({
+        id: makeId(i),
+        topic: src.topic,
+        prompt: `${src.prompt} <em>(Variant ${variantNo})</em>`
+      });
+    }
+  }
+
+  const m1 = math.exams.midterm1 && math.exams.midterm1.questions;
+  const m2 = math.exams.midterm2 && math.exams.midterm2.questions;
+  const fe = math.exams.final && math.exams.final.questions;
+
+  // Midterms are renumbered below to M1-### and M2-###, so temporary IDs are fine.
+  addVariants(m1, 100, (i) => `m1-extra-${String(i + 1).padStart(3, "0")}`);
+  addVariants(m2, 100, (i) => `m2-extra-${String(i + 1).padStart(3, "0")}`);
+
+  // Final uses explicit FE numbering and is not renumbered later.
+  const feStart = Array.isArray(fe)
+    ? fe.reduce((max, q) => {
+      const match = String(q.id || "").match(/^FE-(\d+)$/);
+      if (!match) return max;
+      const n = parseInt(match[1], 10);
+      return Number.isFinite(n) ? Math.max(max, n) : max;
+    }, 0)
+    : 0;
+  addVariants(fe, 100, (i) => `FE-${String(feStart + i + 1).padStart(3, "0")}`);
+})();
+
 // Normalize midterm IDs to numeric-only scheme:
 // M1-001, M1-002, ... and M2-001, M2-002, ...
 Object.values(COURSES).forEach((course) => {
