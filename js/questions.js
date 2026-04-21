@@ -1972,11 +1972,18 @@ const COURSES = {
   }
 };
 
-// Expand MATH 1010U banks with generated variants so each gets +100 questions.
+// Expand MATH 1010U banks with generated base questions and variants.
 // This keeps the question file maintainable while significantly increasing pool size.
 (function expandMathBanks() {
   const math = COURSES.math1010u;
   if (!math || !math.exams) return;
+
+  function addGeneratedBase(questions, addCount, makeQuestion) {
+    if (!Array.isArray(questions) || addCount <= 0) return;
+    for (let i = 0; i < addCount; i++) {
+      questions.push(makeQuestion(i));
+    }
+  }
 
   function addVariants(questions, addCount, makeId) {
     if (!Array.isArray(questions) || questions.length === 0 || addCount <= 0) return;
@@ -1995,6 +2002,118 @@ const COURSES = {
   const m1 = math.exams.midterm1 && math.exams.midterm1.questions;
   const m2 = math.exams.midterm2 && math.exams.midterm2.questions;
   const fe = math.exams.final && math.exams.final.questions;
+
+  const m1Topics = [
+    "limits",
+    "limits - factoring",
+    "limits - rationalization",
+    "trig limits",
+    "one-sided limits",
+    "continuity",
+    "IVT",
+    "limit definition",
+    "product rule",
+    "asymptotes"
+  ];
+  addGeneratedBase(m1, 50, (i) => {
+    const a = (i % 7) + 2;
+    const b = (i % 5) + 1;
+    const topic = m1Topics[i % m1Topics.length];
+    const promptByTopic = {
+      "limits": `Evaluate $\\displaystyle \\lim_{x \\to ${a}} (${b}x^2 - ${a}x + ${b})$.`,
+      "limits - factoring": `Evaluate $\\displaystyle \\lim_{x \\to ${a}} \\dfrac{x^2 - ${a * a}}{x - ${a}}$.`,
+      "limits - rationalization": `Evaluate $\\displaystyle \\lim_{x \\to 0} \\dfrac{\\sqrt{${a * a} + ${b}x} - ${a}}{x}$.`,
+      "trig limits": `Evaluate $\\displaystyle \\lim_{x \\to 0} \\dfrac{\\sin(${a}x)}{${b}x}$.`,
+      "one-sided limits": `Evaluate $\\displaystyle \\lim_{x \\to ${a}^-} \\dfrac{1}{x-${a}}$ and $\\displaystyle \\lim_{x \\to ${a}^+} \\dfrac{1}{x-${a}}$.`,
+      "continuity": `Find $c$ so $f(x)=\\begin{cases} cx+${a} & x\\le ${b} \\\\ x^2-${a} & x>${b} \\end{cases}$ is continuous at $x=${b}$.`,
+      "IVT": `Use IVT to show $x^3-${a}x+${b}=0$ has a root on $(0,1)$ or $(1,2)$ as appropriate.`,
+      "limit definition": `Use the definition of derivative to find $f'(x)$ for $f(x)=x^2+${a}x-${b}$.`,
+      "product rule": `Differentiate $y=(x^2+${a})(${b}x-1)$ using the product rule.`,
+      "asymptotes": `Find vertical/horizontal asymptotes of $f(x)=\\dfrac{x^2+${a}x+${b}}{x^2-${b * 2}}$.`
+    };
+    return {
+      id: `m1-base-${String(i + 1).padStart(3, "0")}`,
+      topic,
+      prompt: promptByTopic[topic]
+    };
+  });
+
+  const m2Topics = [
+    "3.5 trig derivatives",
+    "3.6 chain rule",
+    "3.7 inverse trig derivatives",
+    "3.8 implicit differentiation",
+    "3.9 logarithmic differentiation",
+    "6.9 hyperbolic derivatives",
+    "4.1 related rates",
+    "4.2 linear approximation and differentials",
+    "4.3 min/max",
+    "4.4 MVT"
+  ];
+  addGeneratedBase(m2, 50, (i) => {
+    const a = (i % 6) + 2;
+    const b = (i % 8) + 1;
+    const topic = m2Topics[i % m2Topics.length];
+    const promptByTopic = {
+      "3.5 trig derivatives": `Differentiate $y=${a}\\sin x-${b}\\cos x+\\tan x$.`,
+      "3.6 chain rule": `Differentiate $y=\\left(${a}x^2+${b}\\right)^${(i % 4) + 2}$.`,
+      "3.7 inverse trig derivatives": `Differentiate $y=\\arctan(${a}x)$.`,
+      "3.8 implicit differentiation": `For $x^2+xy+y^2=${a * b + 5}$, find $\\dfrac{dy}{dx}$.`,
+      "3.9 logarithmic differentiation": `Use logarithmic differentiation for $y=\\left(\\dfrac{x+${a}}{x}\\right)^x$.`,
+      "6.9 hyperbolic derivatives": `Differentiate $y=\\sinh(${a}x)-${b}\\cosh x$.`,
+      "4.1 related rates": `A sphere's radius grows at ${b / 10} cm/s. Find $\\dfrac{dV}{dt}$ when $r=${a}$.`,
+      "4.2 linear approximation and differentials": `Use linearization at $a=${a * a}$ to approximate $\\sqrt{${a * a}+0.${b}}$.`,
+      "4.3 min/max": `Find local extrema of $f(x)=x^3-${a}x^2+${b}$.`,
+      "4.4 MVT": `Find all $c$ satisfying MVT for $f(x)=x^2-${a}x$ on $[0,${a + b}]$.`
+    };
+    return {
+      id: `m2-base-${String(i + 1).padStart(3, "0")}`,
+      topic,
+      prompt: promptByTopic[topic]
+    };
+  });
+
+  const feStartBase = Array.isArray(fe)
+    ? fe.reduce((max, q) => {
+      const match = String(q.id || "").match(/^FE-(\d+)$/);
+      if (!match) return max;
+      const n = parseInt(match[1], 10);
+      return Number.isFinite(n) ? Math.max(max, n) : max;
+    }, 0)
+    : 0;
+  const feTopics = [
+    "optimization",
+    "antiderivatives",
+    "approximating areas (left, right, midpoint)",
+    "definite integrals",
+    "riemann sums",
+    "FTC",
+    "basic integrals",
+    "net change theorem",
+    "u-sub",
+    "definite integrals"
+  ];
+  addGeneratedBase(fe, 50, (i) => {
+    const a = (i % 7) + 2;
+    const b = (i % 5) + 1;
+    const topic = feTopics[i % feTopics.length];
+    const promptByTopic = {
+      "optimization": `Find dimensions of a rectangle with perimeter ${20 * a} that maximize area.`,
+      "antiderivatives": `Find $\\displaystyle \\int (${a}x^2-${b}x+1)\\,dx$.`,
+      "approximating areas (left, right, midpoint)": `Approximate $\\int_0^${a} (x+${b})\\,dx$ using midpoint rule with $n=${a}$.`,
+      "definite integrals": `Evaluate $\\displaystyle \\int_0^${a} (${b}x^2-1)\\,dx$.`,
+      "riemann sums": `Write a Riemann sum limit for $\\int_0^${a} (x^2+${b})\\,dx$ using right endpoints.`,
+      "FTC": `If $F(x)=\\int_1^{x^2}(t+${b})\\,dt$, find $F'(x)$.`,
+      "basic integrals": `Evaluate $\\displaystyle \\int \\left(${a}x+\\dfrac{${b}}{x}\\right)dx$.`,
+      "net change theorem": `Given $v(t)=${a}t-${b}$ on $[0,${a}]$, find net displacement.`,
+      "u-sub": `Evaluate $\\displaystyle \\int ${a}x\\cos(${a}x^2+${b})\\,dx$ using substitution.`
+    };
+    return {
+      id: `FE-${String(feStartBase + i + 1).padStart(3, "0")}`,
+      topic,
+      prompt: promptByTopic[topic]
+    };
+  });
 
   // Midterms are renumbered below to M1-### and M2-###, so temporary IDs are fine.
   addVariants(m1, 200, (i) => `m1-extra-${String(i + 1).padStart(3, "0")}`);
