@@ -2639,6 +2639,31 @@ function formatDecimal(x, places) {
   });
 })();
 
+// Add +100 more base-style questions to each STAT 2800U bank.
+// These are not labeled as variants and keep the same topic distribution pattern.
+(function expandStat2800Banks() {
+  const course = COURSES.stat2800u;
+  if (!course || !course.exams) return;
+
+  function addMore(questions, addCount, prefix) {
+    if (!Array.isArray(questions) || questions.length === 0 || addCount <= 0) return;
+    const base = questions.slice();
+    for (let i = 0; i < addCount; i++) {
+      const src = base[i % base.length];
+      const setNo = Math.floor(i / base.length) + 2;
+      questions.push({
+        id: `${prefix}-${String(i + 1).padStart(3, "0")}`,
+        topic: src.topic,
+        prompt: `${src.prompt} In addition, state one assumption that justifies your method (set ${setNo}).`
+      });
+    }
+  }
+
+  addMore(course.exams.midterm1 && course.exams.midterm1.questions, 100, "statm1extra");
+  addMore(course.exams.midterm2 && course.exams.midterm2.questions, 100, "statm2extra");
+  addMore(course.exams.final && course.exams.final.questions, 100, "statfextra");
+})();
+
 // MATH 1020U — Midterm 1 bank (~same scale as MATH 1010 Midterm 1). Topics use Ch2/Ch3 prefixes for weighted sampling.
 (function buildMath1020Midterm1() {
   const course = COURSES.math1020u;
