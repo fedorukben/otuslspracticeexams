@@ -1381,6 +1381,51 @@ const COURSES = {
             id: "m2-curve-13",
             topic: "4.8 curve sketching summary",
             prompt: "Sketch $f(x)=x^2e^{-x}$ by identifying critical points, inflection points, and end behavior."
+          },
+          {
+            id: "m2-trig-08",
+            topic: "3.5 trig derivatives",
+            prompt: "Differentiate $y=\\dfrac{\\sin x+\\cos x}{\\tan x}$."
+          },
+          {
+            id: "m2-chain-09",
+            topic: "3.6 chain rule",
+            prompt: "Differentiate $y=\\left(\\ln(1+x^2)\\right)^4$."
+          },
+          {
+            id: "m2-itrig-08",
+            topic: "3.7 inverse trig derivatives",
+            prompt: "Differentiate $f(x)=\\arctan\\!\\left(\\sqrt{x}\\right)$."
+          },
+          {
+            id: "m2-impl-08",
+            topic: "3.8 implicit differentiation",
+            prompt: "For $x^2+xy+y^2=19$, find the tangent slope at point $(3,2)$."
+          },
+          {
+            id: "m2-log-08",
+            topic: "3.9 logarithmic differentiation",
+            prompt: "Use logarithmic differentiation to find $\\dfrac{dy}{dx}$ for $y=\\left(\\dfrac{x^2+1}{x}\\right)^x$."
+          },
+          {
+            id: "m2-hyp-08",
+            topic: "6.9 hyperbolic derivatives",
+            prompt: "Differentiate $y=\\sinh x\\cosh x$."
+          },
+          {
+            id: "m2-rates-08",
+            topic: "4.1 related rates",
+            prompt: "A circular oil spill radius increases at 0.4 m/min. How fast is area increasing when radius is 12 m?"
+          },
+          {
+            id: "m2-lin-08",
+            topic: "4.2 linear approximation and differentials",
+            prompt: "Use linearization at $a=27$ to approximate $\\sqrt[3]{27.6}$."
+          },
+          {
+            id: "m2-opt-08",
+            topic: "4.3 min/max",
+            prompt: "Find dimensions of the open-top box with square base of volume $32\\,\\text{m}^3$ that minimizes surface area."
           }
         ]
       },
@@ -1848,6 +1893,56 @@ const COURSES = {
             id: "FE-090",
             topic: "u-sub",
             prompt: "Evaluate $\\displaystyle \\int_{0}^{\\pi/2} \\sin(2x)\\,dx$ using substitution."
+          },
+          {
+            id: "FE-091",
+            topic: "optimization",
+            prompt: "A rectangle is inscribed in the first quadrant under $y=9-x^2$. Find dimensions for maximum area."
+          },
+          {
+            id: "FE-092",
+            topic: "antiderivatives",
+            prompt: "Find the general antiderivative of $f(x)=4\\cos x+\\dfrac{5}{x^2}$."
+          },
+          {
+            id: "FE-093",
+            topic: "approximating areas (left, right, midpoint)",
+            prompt: "Approximate $\\int_0^6 \\dfrac{x}{2}+1\\,dx$ using midpoint rule with $n=6$."
+          },
+          {
+            id: "FE-094",
+            topic: "definite integrals",
+            prompt: "Evaluate $\\displaystyle \\int_0^2 (x^3-3x)\\,dx$."
+          },
+          {
+            id: "FE-095",
+            topic: "riemann sums",
+            prompt: "Evaluate $\\displaystyle \\lim_{n\\to\\infty}\\sum_{i=1}^{n}\\left(\\dfrac{i}{n}\\right)^3\\dfrac{1}{n}$."
+          },
+          {
+            id: "FE-096",
+            topic: "FTC",
+            prompt: "If $F(x)=\\int_2^{x^2} \\ln t\\,dt$, find $F'(x)$."
+          },
+          {
+            id: "FE-097",
+            topic: "basic integrals",
+            prompt: "Evaluate $\\displaystyle \\int \\left(3x^2+\\dfrac{2}{x}\\right)dx$."
+          },
+          {
+            id: "FE-098",
+            topic: "net change theorem",
+            prompt: "If water drains at rate $R'(t)=-8+0.5t$ L/min for $0\\le t\\le 10$, find net change in water volume."
+          },
+          {
+            id: "FE-099",
+            topic: "u-sub",
+            prompt: "Evaluate $\\displaystyle \\int \\dfrac{2x}{1+x^2}\\,dx$."
+          },
+          {
+            id: "FE-100",
+            topic: "u-sub",
+            prompt: "Evaluate $\\displaystyle \\int_1^2 \\dfrac{1}{x\\ln x}\\,dx$."
           }
         ]
       }
@@ -1876,6 +1971,26 @@ const COURSES = {
     }
   }
 };
+
+// Normalize midterm IDs to numeric-only scheme:
+// M1-001, M1-002, ... and M2-001, M2-002, ...
+Object.values(COURSES).forEach((course) => {
+  const exams = (course && course.exams) || {};
+  const m1 = exams.midterm1 && Array.isArray(exams.midterm1.questions) ? exams.midterm1.questions : null;
+  const m2 = exams.midterm2 && Array.isArray(exams.midterm2.questions) ? exams.midterm2.questions : null;
+
+  if (m1) {
+    m1.forEach((q, i) => {
+      q.id = `M1-${String(i + 1).padStart(3, "0")}`;
+    });
+  }
+
+  if (m2) {
+    m2.forEach((q, i) => {
+      q.id = `M2-${String(i + 1).padStart(3, "0")}`;
+    });
+  }
+});
 
 /* =========================================================
    Expose to other scripts. Do not rename.

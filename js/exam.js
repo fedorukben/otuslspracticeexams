@@ -315,6 +315,8 @@
       topic.includes("deriv") ||
       topic.includes("tangent") ||
       topic.includes("limit definition") ||
+      topic.includes("product rule") ||
+      topic.includes("quotient rule") ||
       id.includes("-def-") ||
       id.includes("-deriv-") ||
       id.includes("-tan-")
