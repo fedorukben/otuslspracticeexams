@@ -85,10 +85,10 @@
 
   function renderQuestions() {
     questionsEl.innerHTML = "";
-    const pool = exam.questions.slice();
+    const pool = buildExamPool();
     const selected = fixedQuestionIds
       ? resolveQuestionsByIds(pool, fixedQuestionIds)
-      : sampleWeighted(pool, Math.min(count, pool.length));
+      : sampleForExam(pool, Math.min(count, pool.length));
 
     if (!selected || selected.length === 0) {
       showError("We couldn't rebuild this exact exam from the OTEX code.");
@@ -131,6 +131,59 @@
         throwOnError: false
       });
     }
+  }
+
+  function buildExamPool() {
+    if (examId !== "final") return exam.questions.slice();
+
+    const midterm1 = (course.exams && course.exams.midterm1 && course.exams.midterm1.questions) || [];
+    const midterm2 = (course.exams && course.exams.midterm2 && course.exams.midterm2.questions) || [];
+    const finalOwn = exam.questions || [];
+    return midterm1.concat(midterm2, finalOwn);
+  }
+
+  function sampleForExam(pool, n) {
+    if (examId === "final") {
+      return sampleFinalComposite(n);
+    }
+    return sampleWeighted(pool, n);
+  }
+
+  function sampleFinalComposite(n) {
+    const midterm1 = (course.exams && course.exams.midterm1 && course.exams.midterm1.questions) || [];
+    const midterm2 = (course.exams && course.exams.midterm2 && course.exams.midterm2.questions) || [];
+    const finalOwn = exam.questions || [];
+
+    const targets = computeBucketTargets(n, {
+      midterm1: 0.25,
+      midterm2: 0.25,
+      postMidterm2: 0.50
+    });
+
+    const selected = [];
+    const selectedIds = new Set();
+
+    [
+      { key: "midterm1", bank: midterm1 },
+      { key: "midterm2", bank: midterm2 },
+      { key: "postMidterm2", bank: finalOwn }
+    ].forEach(({ key, bank }) => {
+      const picks = sample(bank, targets[key] || 0);
+      picks.forEach((q) => {
+        if (!selectedIds.has(q.id)) {
+          selected.push(q);
+          selectedIds.add(q.id);
+        }
+      });
+    });
+
+    if (selected.length < n) {
+      const all = midterm1.concat(midterm2, finalOwn);
+      const leftovers = all.filter((q) => !selectedIds.has(q.id));
+      sample(leftovers, n - selected.length).forEach((q) => selected.push(q));
+    }
+
+    return sample(selected, selected.length);
   }
 
   function sampleWeighted(questions, n) {
