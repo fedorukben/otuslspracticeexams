@@ -1997,8 +1997,8 @@ const COURSES = {
   const fe = math.exams.final && math.exams.final.questions;
 
   // Midterms are renumbered below to M1-### and M2-###, so temporary IDs are fine.
-  addVariants(m1, 100, (i) => `m1-extra-${String(i + 1).padStart(3, "0")}`);
-  addVariants(m2, 100, (i) => `m2-extra-${String(i + 1).padStart(3, "0")}`);
+  addVariants(m1, 200, (i) => `m1-extra-${String(i + 1).padStart(3, "0")}`);
+  addVariants(m2, 200, (i) => `m2-extra-${String(i + 1).padStart(3, "0")}`);
 
   // Final uses explicit FE numbering and is not renumbered later.
   const feStart = Array.isArray(fe)
@@ -2009,7 +2009,7 @@ const COURSES = {
       return Number.isFinite(n) ? Math.max(max, n) : max;
     }, 0)
     : 0;
-  addVariants(fe, 100, (i) => `FE-${String(feStart + i + 1).padStart(3, "0")}`);
+  addVariants(fe, 200, (i) => `FE-${String(feStart + i + 1).padStart(3, "0")}`);
 })();
 
 // Normalize midterm IDs to numeric-only scheme:
