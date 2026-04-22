@@ -137,6 +137,7 @@
           { left: "\\(", right: "\\)", display: false },
           { left: "\\[", right: "\\]", display: true }
         ],
+        ignoredClasses: ["nomath"],
         throwOnError: false
       });
     }
@@ -165,6 +166,9 @@
       return sampleEvenByTopic(pool, n);
     }
     if (courseId === "stat2800u" && examId === "midterm1") {
+      return sampleEvenByTopic(pool, n);
+    }
+    if (courseId === "busi1915u" && examId === "midterm1") {
       return sampleEvenByTopic(pool, n);
     }
     if (courseId === "math1020u" && examId === "midterm1") {

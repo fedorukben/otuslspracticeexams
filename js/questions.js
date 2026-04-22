@@ -2267,6 +2267,41 @@ const COURSES = {
     }
   },
 
+  "busi1915u": {
+    name: "BUSI 1915U — Fundamentals of Business Mathematics",
+    exams: {
+      "midterm1": {
+        name: "Midterm 1",
+        topics: [
+          "basics of arithmetic",
+          "fractions",
+          "percent",
+          "simplification of algebraic expressions",
+          "solving basic equations and solving equations involving algebraic simplification",
+          "solving basic word problems",
+          "averages",
+          "payroll",
+          "problems involving increase or decrease",
+          "problems involving percent",
+          "taxes",
+          "determining cost with trade discounts",
+          "markup",
+          "markdown",
+          "order of operations (BEDMAS)",
+          "weighted averages",
+          "tiered pricing and average unit price",
+          "salary, pay periods, and overtime",
+          "percent change",
+          "sales tax — net, gross, and rate",
+          "single equivalent rate of discount",
+          "successive discounts and additional markdown",
+          "list price for a planned discount"
+        ],
+        questions: []
+      }
+    }
+  },
+
   "stat2800u": {
     name: "STAT 2800U — Statistics for Engineering",
     exams: {
@@ -2327,6 +2362,272 @@ function formatDecimal(x, places) {
   if (typeof x !== "number" || !Number.isFinite(x)) return x;
   return Number.parseFloat(x.toFixed(p));
 }
+
+// BUSI 1915U — Midterm 1: simple business-math prompts, evenly sized topic buckets.
+(function buildBusi1915Midterm1() {
+  const course = COURSES.busi1915u;
+  if (!course || !course.exams || !course.exams.midterm1) return;
+  const qs = course.exams.midterm1.questions;
+  if (qs.length > 0) return;
+
+  const perTopic = 16;
+  let n = 0;
+
+  function push(topic, prompt) {
+    n += 1;
+    qs.push({
+      id: `busi1915m1-${String(n).padStart(3, "0")}`,
+      topic,
+      prompt
+    });
+  }
+
+  function addBlock(topic, makePrompt) {
+    for (let k = 0; k < perTopic; k++) {
+      push(topic, makePrompt(k));
+    }
+  }
+
+  addBlock("basics of arithmetic", (k) => {
+    const a = 5 + (k % 6);
+    const b = 2 + (k % 5);
+    return `Compute: $${a + b * 10} - ${b * 3} + ${a}$.`;
+  });
+
+  addBlock("fractions", (k) => {
+    const d = 2 + (k % 4);
+    return `Add and give your answer as a single fraction in lowest terms: $\\dfrac{1}{${d}} + \\dfrac{1}{${d + 1}}$.`;
+  });
+
+  addBlock("percent", (k) => {
+    const p = [10, 25, 50, 20, 5][k % 5];
+    return `Write ${p}% as a fraction in lowest terms.`;
+  });
+
+  addBlock("simplification of algebraic expressions", (k) => {
+    const c = 1 + (k % 4);
+    return `Simplify: $${2 + (k % 3)}x + ${c}x - ${3 + (k % 2)} + ${5}$.`;
+  });
+
+  addBlock("solving basic equations and solving equations involving algebraic simplification", (k) => {
+    const rhs = 10 + (k % 8) * 2;
+    return `Solve for $x$: $2(x + 3) + ${k % 4} = ${rhs}$.`;
+  });
+
+  addBlock("solving basic word problems", (k) => {
+    const price = 12 + (k % 7);
+    return `You buy ${2 + (k % 3)} notebooks at <span class="nomath">$${price}</span> each. How much do you pay in total?`;
+  });
+
+  addBlock("averages", (k) => {
+    const a = 6 + (k % 5);
+    const b = 10 + (k % 6);
+    const c = 8 + (k % 4);
+    return `Find the average (mean) of $\\{${a},\\,${b},\\,${c}\\}$.`;
+  });
+
+  addBlock("payroll", (k) => {
+    const rate = 14 + (k % 5);
+    const hours = 6 + (k % 3);
+    return `An employee earns <span class="nomath">$${rate}</span> per hour and works ${hours} hours one day. What is gross pay for that day?`;
+  });
+
+  addBlock("problems involving increase or decrease", (k) => {
+    const base = 40 + (k % 10) * 5;
+    const pct = 10 + (k % 4) * 5;
+    return `A value of <span class="nomath">$${base}</span> increases by ${pct}%. What is the new value?`;
+  });
+
+  addBlock("problems involving percent", (k) => {
+    const whole = 80 + (k % 9) * 10;
+    const p = 15 + (k % 5) * 5;
+    return `What is ${p}% of <span class="nomath">$${whole}</span>?`;
+  });
+
+  addBlock("taxes", (k) => {
+    const sub = 25 + (k % 8) * 5;
+    return `A purchase is <span class="nomath">$${sub}</span> before tax. If the sales tax rate is 8%, what is the total including tax?`;
+  });
+
+  addBlock("determining cost with trade discounts", (k) => {
+    const list = 100 + (k % 6) * 10;
+    const d = 15 + (k % 4) * 5;
+    return `The list price is <span class="nomath">$${list}</span>. A trade discount of ${d}% is applied. What is the net price after the discount?`;
+  });
+
+  addBlock("markup", (k) => {
+    const cost = 30 + (k % 5) * 10;
+    const m = 40 + (k % 4) * 10;
+    return `An item costs <span class="nomath">$${cost}</span>. The markup is ${m}% on cost. What is the selling price?`;
+  });
+
+  addBlock("markdown", (k) => {
+    const reg = 50 + (k % 7) * 5;
+    const off = 10 + (k % 3) * 5;
+    return `The regular price is <span class="nomath">$${reg}</span>. The item is marked down ${off}% off the regular price. What is the sale price?`;
+  });
+
+  addBlock("order of operations (BEDMAS)", (k) => {
+    const prompts = [
+      () => `Evaluate: $2 + 3 \\cdot 4$.`,
+      () => `Evaluate: $(2 + 3) \\cdot 4$.`,
+      () => `Evaluate: $24 \\div 6 + 2$.`,
+      () => `Evaluate: $24 \\div (6 + 2)$.`,
+      () => `Evaluate: $5^2 - 3 \\cdot 4$.`,
+      () => `Evaluate: $(10 - 4)^2 \\div 9 + 1$.`,
+      () => `Evaluate: $18 - 2 \\cdot 6 + 4$.`,
+      () => `Evaluate: $(18 - 2) \\cdot (6 + 4)$.`,
+      () => `Evaluate: $\\dfrac{1}{2} \\cdot 8 + 3$.`,
+      () => `Evaluate: $3 + 4 \\cdot 5 - 2 \\cdot 3$.`,
+      () => `Evaluate: $(3 + 4) \\cdot (5 - 2) - 3$.`,
+      () => `Evaluate: $100 - 4 \\cdot 5^2$.`,
+      () => `Evaluate: $\\dfrac{20}{2 + 3} + 4$.`,
+      () => `Evaluate: $2(7 + 3) - 4 \\cdot 5$.`,
+      () => `Evaluate: $36 \\div 3 \\div 2$.`,
+      () => `Evaluate: $1 + 2 \\cdot 3^2 - 4$.`
+    ];
+    return prompts[k % prompts.length]();
+  });
+
+  addBlock("weighted averages", (k) => {
+    const dept = [
+      "Faculty of Business and Information Technology",
+      "School of Management and Analytics",
+      "Department of Commerce and Economics"
+    ][k % 3];
+    const mode = k % 4;
+    if (mode === 0) {
+      const w1 = 2 + (k % 4);
+      const w2 = 3 + (k % 5);
+      const w3 = 1 + (k % 2);
+      const x1 = 12 + (k % 8);
+      const x2 = 22 + (k % 9);
+      const x3 = 31 + (k % 6);
+      return `A shipment is made up of ${w1} crates weighing ${x1} kg each, ${w2} crates weighing ${x2} kg each, and ${w3} crates weighing ${x3} kg each. What is the <em>average</em> weight per crate (weighted by how many crates are in each group)?`;
+    }
+    if (mode === 1) {
+      const n1 = 18 + (k % 7) * 2;
+      const n2 = 24 + (k % 9) * 2;
+      const g1 = 72 + (k % 11);
+      const g2 = 84 + (k % 9);
+      return `Section A has ${n1} students with a mean test score of ${g1}. Section B has ${n2} students with a mean test score of ${g2}. Treating every student equally, what is the <em>overall</em> mean score for the two sections combined?`;
+    }
+    if (mode === 2) {
+      const n1 = 25 + (k % 10);
+      const n2 = 40 + (k % 12);
+      const r1 = 10 + (k % 6);
+      const r2 = 16 + (k % 5);
+      return `Last month a store sold ${n1} units of product X at <span class="nomath">$${r1}</span> each and ${n2} units of product Y at <span class="nomath">$${r2}</span> each. What was the <em>average revenue per unit sold</em> across both products (weighted by units sold)?`;
+    }
+    const ap = 5 + (k % 4);
+    const assoc = 4 + (k % 3);
+    const prof = 1;
+    const r1 = formatDecimal(30.5 + (k % 18) * 0.25, 2);
+    const r2 = formatDecimal(44 + (k % 16) * 0.35, 2);
+    const r3 = formatDecimal(63 + (k % 12) * 0.5, 2);
+    return `The <em>${dept}</em> has ${ap} assistant professors working at <span class="nomath">$${r1}</span> per hour, ${assoc} associate professors at <span class="nomath">$${r2}</span> per hour, and ${prof} full professor at <span class="nomath">$${r3}</span> per hour. What is the <em>average hourly rate</em> earned across all of these faculty members?`;
+  });
+
+  addBlock("tiered pricing and average unit price", (k) => {
+    const farm = ["Fairfield Farms", "Ridgeway Berries", "Northfield Produce"][k % 3];
+    const berry = ["strawberries", "blueberries", "raspberries"][k % 3];
+    const u = "boxes";
+    const q1 = 700 + (k % 8) * 50;
+    const p1 = formatDecimal(1.15 + (k % 6) * 0.05, 2);
+    const q2 = 1400 + (k % 10) * 40;
+    const p2 = formatDecimal(0.82 + (k % 5) * 0.04, 2);
+    const q3 = 1900 + (k % 9) * 30;
+    const p3 = formatDecimal(0.72 + (k % 4) * 0.03, 2);
+    const q4 = 550 + (k % 7) * 25;
+    const p4 = formatDecimal(1.05 + (k % 5) * 0.05, 2);
+    return `During last season, <em>${farm}</em> sold ${berry} as follows: ${q1} ${u} at <span class="nomath">$${p1}</span> per box in the early season; ${q2} ${u} at <span class="nomath">$${p2}</span> per box and ${q3} ${u} at <span class="nomath">$${p3}</span> per box at the height of the season; and ${q4} ${u} at <span class="nomath">$${p4}</span> per box late in the season.<br><br>(a) What were <em>total sales revenue</em> for the season?<br>(b) What was the <em>average price per box</em> over all ${u} sold? (Give dollars and cents; you may use your answer from (a) with the total number of ${u}.)`;
+  });
+
+  addBlock("salary, pay periods, and overtime", (k) => {
+    if (k % 2 === 0) {
+      const annual = 48264 + (k % 18) * 1800;
+      const weeks = 52;
+      const hrs = 40;
+      return `An employee has an annual salary of <span class="nomath">$${annual.toLocaleString("en-CA")}</span>. Pay is issued every two weeks (26 pay periods per year). The regular workweek is ${hrs} hours.<br><br>(a) What is the <em>gross pay per pay period</em>?<br>(b) What is the <em>equivalent hourly rate</em> of pay, based on a ${weeks}-week year and a ${hrs}-hour regular week?`;
+    }
+    const name = ["Brittaney", "Jordan", "Samira", "Alex"][k % 4];
+    const monthly = formatDecimal(2688.5 + (k % 14) * 42.75, 2);
+    const weekHrs = 35;
+    const otHoursStr = ["$7\\frac{3}{4}$", "$5\\frac{1}{2}$", "$10\\frac{1}{4}$", "$3\\frac{3}{4}$"][k % 4];
+    const possessive = name.endsWith("s") ? `${name}'` : `${name}'s`;
+    return `<em>${name}</em> is paid a monthly salary of <span class="nomath">$${monthly}</span>. The regular workweek is ${weekHrs} hours. Overtime is paid at time-and-a-half the regular hourly rate.<br><br>(a) What is ${possessive} <em>regular hourly rate</em> of pay?<br>(b) What is ${possessive} <em>gross pay for the month</em> if ${name} worked ${otHoursStr} overtime hours during the month at time-and-a-half?`;
+  });
+
+  addBlock("percent change", (k) => {
+    const oldV = 40 + (k % 9) * 8;
+    const delta = [-15, 12, -8, 20, -25, 6, 18, -10, 14, 9, -12, 16, -6, 22, -18, 11][k % 16];
+    const newV = oldV + delta;
+    const labels = [
+      ["monthly downloads", "last month", "this month"],
+      ["units produced", "in Week 1", "in Week 2"],
+      ["customers served", "on Monday", "on Tuesday"],
+      ["kilometres driven", "on the first route", "on the second route"],
+      ["items in stock", "at opening", "at closing"]
+    ][k % 5];
+    const [thing, tOld, tNew] = labels;
+    return `There were ${oldV} <em>${thing}</em> ${tOld}, and ${newV} ${tNew}. What is the <em>percent change</em> from the first figure to the second (relative to the first)? Give a signed result: positive for an increase and negative for a decrease.`;
+  });
+
+  addBlock("sales tax — net, gross, and rate", (k) => {
+    const mode = k % 3;
+    if (mode === 0) {
+      const net = formatDecimal(26.75 + (k % 13) * 3.55, 2);
+      const rate = [5, 6, 7.5, 8, 10, 12, 13][k % 7];
+      return `The price of an item before tax is <span class="nomath">$${net}</span>. The sales tax rate is ${rate}%. What is the <em>total amount paid</em> including tax (gross)?`;
+    }
+    if (mode === 1) {
+      const rate = [5, 8, 10, 12.5, 13][k % 5];
+      const net = 45 + (k % 10) * 3.5;
+      const gross = formatDecimal(net * (1 + rate / 100), 2);
+      return `A bill shows a <em>total</em> of <span class="nomath">$${gross}</span> including ${rate}% sales tax on the taxable portion. What was the <em>net</em> amount before tax?`;
+    }
+    const net = 60 + (k % 8) * 5;
+    const taxAmt = formatDecimal(net * ([0.05, 0.08, 0.1, 0.125, 0.13][k % 5]), 2);
+    return `A receipt lists a taxable subtotal of <span class="nomath">$${net}</span> and tax of <span class="nomath">$${taxAmt}</span> on that subtotal. What <em>tax rate</em> (as a percent of the subtotal) was applied?`;
+  });
+
+  addBlock("single equivalent rate of discount", (k) => {
+    const list = 120 + (k % 9) * 15;
+    if (k % 2 === 0) {
+      const d1 = 15 + (k % 4) * 5;
+      const d2 = 8 + (k % 3) * 2;
+      const d3 = 5 + (k % 2) * 3;
+      return `The list price of an article is <span class="nomath">$${list}</span>. Successive trade discounts of ${d1}%, ${d2}%, and ${d3}% are granted (each percent is taken on the <em>reduced</em> price after the previous discount). What <em>single equivalent rate of discount</em>, applied once to the list price, would yield the same net price?`;
+    }
+    const d1 = 20 + (k % 3) * 5;
+    const d2 = 10 + (k % 4) * 2;
+    return `Equipment is listed at <span class="nomath">$${list}</span> less ${d1}% and ${d2}%. What is the <em>single equivalent rate of discount</em> on the list price?`;
+  });
+
+  addBlock("successive discounts and additional markdown", (k) => {
+    const list = 160 + (k % 10) * 14;
+    const d1Spec = [
+      { label: "16 2/3", value: 50 / 3 },
+      { label: "12 1/2", value: 12.5 },
+      { label: "33 1/3", value: 100 / 3 },
+      { label: "8 1/3", value: 25 / 3 }
+    ][k % 4];
+    const d2 = [10, 12, 15][k % 3];
+    const d3 = [2, 3, 5][k % 3];
+    const chainNet = list * (1 - d1Spec.value / 100) * (1 - d2 / 100) * (1 - d3 / 100);
+    const extraMult = [0.9, 0.88, 0.85, 0.92][k % 4];
+    const sale = formatDecimal(chainNet * extraMult, 2);
+    const holiday = ["Valentine's Day", "Black Friday", "Labour Day", "Boxing Week"][k % 4];
+    const item = ["mobile phone", "tablet", "smart watch", "wireless headset"][k % 4];
+    return `A ${item} is listed for <span class="nomath">$${list}</span> less ${d1Spec.label}%, ${d2}%, and ${d3}%.<br><br>(a) What is the <em>exact single rate of discount</em> on the list price that is equivalent to these three successive discounts?<br><br>(b) For a <em>${holiday}</em> promotion the price was further reduced to <span class="nomath">$${sale}</span> (after the three discounts had already been applied). What was the <em>additional rate of discount</em> on the <em>already-reduced</em> price?`;
+  });
+
+  addBlock("list price for a planned discount", (k) => {
+    const net = formatDecimal(48.6 + (k % 12) * 2.35, 2);
+    const d = [20, 25, 30, 35, 40, 15][k % 6];
+    return `A manufacturer can cover its costs and earn a reasonable profit if it <em>actually receives</em> <span class="nomath">$${net}</span> for an article after the buyer’s discount is taken. At what <em>list price</em> should the article be marked so that a single trade discount of ${d}% may be allowed while still netting that amount?`;
+  });
+})();
 
 // STAT 2800U — Midterm 1: nine equal topic buckets for even-by-topic sampling.
 (function buildStat2800Midterm1() {
@@ -2525,7 +2826,7 @@ function formatDecimal(x, places) {
     const xbar = formatDecimal(10.2 + (k % 7) * 0.3, 2);
     const sigma = formatDecimal(1.5 + (k % 5) * 0.2, 2);
     const confPct = [90, 95, 99][k % 3];
-    return `A random sample of size $n=${n}$ yields $\\bar{x}=${xbar}$ from a population with known $\\sigma=${sigma}$. Construct a two-sided ${confPct}\\% confidence interval for $\\mu$ using the normal pivot (state the formula with $z_{\\alpha/2}$).`;
+    return `A random sample of size $n=${n}$ yields $\\bar{x}=${xbar}$ from a population with known $\\sigma=${sigma}$. Construct a two-sided ${confPct}% confidence interval for $\\mu$ using the normal pivot (state the formula with $z_{\\alpha/2}$).`;
   });
 
   addBlock("confidence intervals — population mean, variance unknown", (k) => {
@@ -2533,7 +2834,7 @@ function formatDecimal(x, places) {
     const xbar = formatDecimal(4.7 + (k % 6) * 0.15, 2);
     const s = formatDecimal(0.6 + (k % 5) * 0.08, 2);
     const confPct = [90, 95, 99][k % 3];
-    return `For $n=${n}$, $\\bar{x}=${xbar}$, and sample standard deviation $s=${s}$, construct a two-sided ${confPct}\\% confidence interval for $\\mu$ when $\\sigma$ is <em>unknown</em> (use the appropriate $t$ critical value notation).`;
+    return `For $n=${n}$, $\\bar{x}=${xbar}$, and sample standard deviation $s=${s}$, construct a two-sided ${confPct}% confidence interval for $\\mu$ when $\\sigma$ is <em>unknown</em> (use the appropriate $t$ critical value notation).`;
   });
 })();
 
@@ -2568,7 +2869,7 @@ function formatDecimal(x, places) {
     const dbar = formatDecimal(1.2 + (k % 8) * 0.15, 2);
     const se = formatDecimal(0.35 + (k % 5) * 0.05, 2);
     const confPct = [90, 95, 99][k % 3];
-    return `Two independent samples have sizes $n_1=${n1}$ and $n_2=${n2}$ with difference in sample means $\\bar{x}_1-\\bar{x}_2=${dbar}$ and <em>estimated standard error</em> $\\mathrm{SE}=${se}$ (appropriate formula already applied). Construct an approximate ${confPct}\\% two-sided CI for $\\mu_1-\\mu_2$ using a normal critical value (state $z_{\\alpha/2}$ notation).`;
+    return `Two independent samples have sizes $n_1=${n1}$ and $n_2=${n2}$ with difference in sample means $\\bar{x}_1-\\bar{x}_2=${dbar}$ and <em>estimated standard error</em> $\\mathrm{SE}=${se}$ (appropriate formula already applied). Construct an approximate ${confPct}% two-sided CI for $\\mu_1-\\mu_2$ using a normal critical value (state $z_{\\alpha/2}$ notation).`;
   });
 
   addBlock("confidence intervals — paired data", (k) => {
@@ -2576,7 +2877,7 @@ function formatDecimal(x, places) {
     const db = formatDecimal(0.4 + (k % 6) * 0.08, 2);
     const sd = formatDecimal(0.55 + (k % 5) * 0.07, 2);
     const confPct = [90, 95, 99][k % 3];
-    return `Paired differences $d_i$ for $m=${m}$ pairs have mean $\\bar{d}=${db}$ and sample standard deviation $s_d=${sd}$. Construct a ${confPct}\\% CI for the mean paired change $\\mu_d$ using the paired $t$ procedure (show degrees of freedom).`;
+    return `Paired differences $d_i$ for $m=${m}$ pairs have mean $\\bar{d}=${db}$ and sample standard deviation $s_d=${sd}$. Construct a ${confPct}% CI for the mean paired change $\\mu_d$ using the paired $t$ procedure (show degrees of freedom).`;
   });
 
   addBlock("hypothesis tests — population mean, variance known", (k) => {
@@ -2931,7 +3232,7 @@ function formatDecimal(x, places) {
 
   addBlock("taylor series applications and error formulas", (k) => {
     const a = (k % 3) + 1;
-    return `Use a Taylor polynomial centered at $0$ to approximate $e^{${a / 10}}$ and state the Lagrange remainder term for degree 3.`;
+    return `Use a Taylor polynomial centered at $0$ to approximate $e^{${a / 10}}$ and state the remainder term for degree 3.`;
   });
 
   addBlock("sequences", (k) => {
