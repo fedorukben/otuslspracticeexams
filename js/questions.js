@@ -2302,6 +2302,33 @@ const COURSES = {
     }
   },
 
+  "nurs3700u": {
+    name: "NURS 3700U — Healthy Communities Nursing Theory and Practicum",
+    exams: {
+      "medicationMathTest": {
+        name: "Medication Math Test",
+        topics: [
+          "unit conversion",
+          "oral medications — tablets and capsules",
+          "oral medications — liquids",
+          "injectable medications",
+          "reconstitution",
+          "iv flow rates — ml/hr",
+          "iv flow rates — gtt/min (manual drip)",
+          "weight-based dosing",
+          "weight-based iv infusions",
+          "infusion time",
+          "safe dose verification — pediatric and adult",
+          "total daily dose and frequency",
+          "syringe selection",
+          "label interpretation",
+          "mixed/multi-step"
+        ],
+        questions: []
+      }
+    }
+  },
+
   "stat2800u": {
     name: "STAT 2800U — Statistics for Engineering",
     exams: {
@@ -2626,6 +2653,156 @@ function formatDecimal(x, places) {
     const net = formatDecimal(48.6 + (k % 12) * 2.35, 2);
     const d = [20, 25, 30, 35, 40, 15][k % 6];
     return `A manufacturer can cover its costs and earn a reasonable profit if it <em>actually receives</em> <span class="nomath">$${net}</span> for an article after the buyer’s discount is taken. At what <em>list price</em> should the article be marked so that a single trade discount of ${d}% may be allowed while still netting that amount?`;
+  });
+})();
+
+// NURS 3700U — Medication Math Test bank.
+(function buildNurs3700MedicationMath() {
+  const course = COURSES.nurs3700u;
+  if (!course || !course.exams || !course.exams.medicationMathTest) return;
+  const qs = course.exams.medicationMathTest.questions;
+  if (qs.length > 0) return;
+
+  let n = 0;
+  function push(topic, prompt) {
+    n += 1;
+    qs.push({
+      id: `mm-${String(n).padStart(3, "0")}`,
+      topic,
+      prompt
+    });
+  }
+
+  const bank = {
+    "unit conversion": [
+      "Convert 2.5 g to milligrams (mg).",
+      "Convert 0.125 mg to micrograms (mcg).",
+      "A medication is ordered in grains. The order is for gr 1/4. How many milligrams is this? (Use 1 gr = 60 mg)",
+      "Convert 1800 mL to litres (L).",
+      "A patient weighs 154 lb. What is their weight in kilograms? (Use 1 kg = 2.2 lb)",
+      "Convert 0.5 L to millilitres (mL).",
+      "An infant weighs 3500 g. What is the weight in kilograms?",
+      "Convert 750 mcg to milligrams (mg).",
+      "A patient weighs 88 kg. What is their weight in pounds (lb)?",
+      "Convert 0.004 g to micrograms (mcg)."
+    ],
+    "oral medications — tablets and capsules": [
+      "The order is for 75 mg of medication. The tablets available are 25 mg each. How many tablets should be administered?",
+      "A physician orders 1.5 g of a medication. On hand are 500 mg tablets. How many tablets should be given?",
+      "The order reads 0.25 mg. Available tablets are 0.125 mg. How many tablets should the nurse administer?",
+      "A patient is prescribed 600 mg of ibuprofen. The available tablets are 200 mg each. How many tablets should be given?",
+      "The order is for 1 g of a medication. On hand are 250 mg capsules. How many capsules should be administered?",
+      "A physician orders 45 mg of a medication. Available tablets are scored and come in 30 mg strength. How many tablets should be given?",
+      "The order is for 0.4 mg. The medication on hand is 200 mcg per tablet. How many tablets should be administered?"
+    ],
+    "oral medications — liquids": [
+      "The order is for 125 mg of amoxicillin. The suspension on hand is 250 mg per 5 mL. How many mL should be administered?",
+      "A physician orders 300 mg of a liquid medication. The concentration is 150 mg per 10 mL. How many mL should the nurse give?",
+      "The order is for 7.5 mg of a medication. The solution available is 5 mg per mL. How many mL should be administered?",
+      "A medication is ordered at 20 mg. Available is a solution of 10 mg per 2.5 mL. How many mL should be given?",
+      "The order is for 0.1 mg of digoxin oral solution. The concentration available is 0.05 mg per mL. What volume should the nurse administer?",
+      "A child is prescribed 100 mg of a medication. The suspension available is 125 mg per 5 mL. What volume should be given?",
+      "The order reads 15 mg. On hand is a liquid containing 10 mg per 4 mL. How many mL should be administered?"
+    ],
+    "injectable medications": [
+      "A physician orders 40 mg of a medication for IM injection. Available is a vial containing 80 mg per 2 mL. What volume should be drawn up?",
+      "The order is for 0.4 mg of atropine. The vial contains 0.5 mg per mL. How many mL should be administered?",
+      "A medication order is for 75 mg. The vial is labeled 100 mg per 2 mL. What volume should be withdrawn?",
+      "The order is for 12.5 mg of a medication. On hand is a vial of 25 mg per mL. How many mL should the nurse prepare?",
+      "A physician orders 7500 units of heparin subcutaneously. The vial contains 10,000 units per mL. What volume should be administered?",
+      "The order is for 1.2 million units of penicillin. Available is a vial containing 600,000 units per mL. How many mL should be given?",
+      "An order reads 0.6 mg. The available solution contains 0.4 mg per 0.5 mL. What volume should be drawn up?"
+    ],
+    "reconstitution": [
+      "A vial contains 500 mg of powdered medication. The instructions say to add 9.3 mL of sterile water to yield 10 mL of solution. What is the resulting concentration in mg/mL?",
+      "You must reconstitute a 1 g vial by adding 3.4 mL of diluent to yield 4 mL of solution. What is the final concentration?",
+      "After reconstitution, a vial contains 250 mg per mL. The order is for 375 mg. What volume should be withdrawn?",
+      "A powdered antibiotic vial is reconstituted with 10 mL of sterile water to yield a concentration of 250 mg per 5 mL. How many mL are needed to deliver 750 mg?",
+      "You add 1.8 mL of diluent to a 500 mg vial, yielding 2 mL total. The order is for 300 mg. What volume should the nurse draw up?",
+      "A 2 g vial is reconstituted per the package insert, resulting in a concentration of 400 mg/mL. How many mL are needed for a 600 mg dose?",
+      "After reconstituting a vial, the concentration is 1000 mg per 3.8 mL. The order is for 250 mg. What volume should be administered?"
+    ],
+    "iv flow rates — ml/hr": [
+      "A physician orders 500 mL of NS to infuse over 4 hours. At what rate should the IV pump be set (mL/hr)?",
+      "The order is to infuse 250 mL of D5W over 90 minutes. What is the infusion rate in mL/hr?",
+      "A patient is to receive 3000 mL of IV fluid over 24 hours. What is the hourly rate?",
+      "You must infuse 150 mL of an antibiotic over 45 minutes. What is the rate in mL/hr?",
+      "A total of 2400 mL is ordered over 20 hours. What rate should the pump be set to?",
+      "100 mL of a medication is to infuse over 20 minutes. What is the pump rate in mL/hr?",
+      "The order reads: infuse 1 L of LR over 12 hours. What is the rate in mL/hr?"
+    ],
+    "iv flow rates — gtt/min (manual drip)": [
+      "Infuse 1000 mL of NS over 8 hours. The tubing drop factor is 20 gtt/mL. What is the flow rate in gtt/min?",
+      "A patient is ordered 500 mL of D5W over 4 hours. The IV set has a drop factor of 15 gtt/mL. Calculate the gtt/min.",
+      "Infuse 250 mL over 6 hours using tubing with a drop factor of 60 gtt/mL. What is the rate in gtt/min?",
+      "The order is to infuse 100 mL over 30 minutes with a 10 gtt/mL drop factor. Calculate the gtt/min.",
+      "A physician orders 750 mL over 5 hours. Drop factor is 15 gtt/mL. What is the flow rate in gtt/min?",
+      "Infuse 200 mL over 2 hours. The tubing is a microdrop set (60 gtt/mL). What is the drip rate in gtt/min?",
+      "A 1000 mL bag must infuse over 10 hours with a 20 gtt/mL set. Calculate the gtt/min."
+    ],
+    "weight-based dosing": [
+      "A patient weighs 80 kg. The order is for 2 mg/kg of a medication. What is the total dose in mg?",
+      "The prescribed dose is 0.1 mg/kg. The patient weighs 65 kg. What dose should be administered?",
+      "A child weighs 30 kg. The order is 25 mg/kg/day in 4 divided doses. What is the dose per administration?",
+      "The order is 15 mcg/kg. The patient weighs 70 kg. What is the required dose in mcg?",
+      "A medication is ordered at 1.5 mg/kg IV. The patient weighs 92 kg. What is the total dose in mg?",
+      "A child weighs 18 kg. The provider orders 20 mg/kg/day in 3 divided doses. What is each single dose?",
+      "The physician orders 0.05 mg/kg of a medication. The patient weighs 55 kg. What dose should be prepared?"
+    ],
+    "weight-based iv infusions": [
+      "A patient weighs 70 kg. The order is dopamine at 5 mcg/kg/min. The available solution is 400 mg in 250 mL. What rate should the IV pump be set to (mL/hr)?",
+      "The order is for nitroglycerin at 10 mcg/min. The solution available is 50 mg in 250 mL. What is the infusion rate in mL/hr?",
+      "A patient weighs 85 kg and is ordered a medication at 3 mcg/kg/min. The solution is 200 mg in 100 mL. What is the pump rate in mL/hr?",
+      "The physician orders dobutamine 7.5 mcg/kg/min. The patient weighs 60 kg. Available is 500 mg in 250 mL. What is the infusion rate in mL/hr?",
+      "A patient weighing 90 kg is ordered a medication at 0.1 mcg/kg/min. The solution concentration is 10 mg in 100 mL. What rate should the pump be set to (mL/hr)?"
+    ],
+    "infusion time": [
+      "A 500 mL bag is infusing at 125 mL/hr. How long will the bag last?",
+      "1000 mL is infusing at 80 mL/hr. How many hours and minutes will it take to complete?",
+      "A 250 mL bag is running at 50 mL/hr. How long will the infusion take, in hours and minutes?",
+      "You hang a 100 mL bag at 150 mL/hr. Approximately how many minutes will it take to infuse?",
+      "A 3000 mL bag is ordered at 125 mL/hr. When will it finish if started at 0800?"
+    ],
+    "safe dose verification — pediatric and adult": [
+      "A child weighs 25 kg. The order is 8 mg/kg/day. The safe range is 5-10 mg/kg/day. Is this a safe dose?",
+      "An adult patient is prescribed 1500 mg/day of a medication in 3 divided doses. The maximum safe dose is 4 g/day. Is this safe? What is each dose?",
+      "A child weighs 12 kg. The order is for 60 mg of a medication. The recommended dose is 2-4 mg/kg per dose. Is this safe?",
+      "The safe dose range for a drug is 10-20 mg/kg/day. A patient weighing 40 kg is prescribed 600 mg/day in 3 divided doses. Is the daily dose within range? Is each dose within range?",
+      "A child weighing 8 kg is ordered 40 mg of a medication. The recommended safe dose is 5 mg/kg per dose. Is this order safe? What action should the nurse take?",
+      "A patient is prescribed 2 g of a medication per dose, four times daily. The package insert states the maximum daily dose is 6 g. Is this order safe? What should the nurse do?"
+    ],
+    "total daily dose and frequency": [
+      "A medication is ordered as 250 mg q6h (every 6 hours). What is the total daily dose?",
+      "The order reads 500 mg BID (twice daily). How many milligrams will the patient receive in 24 hours?",
+      "A patient is prescribed 100 mg TID (three times daily) for 7 days. What is the total amount of medication they will receive over the full course?",
+      "The order is 0.5 g QID (four times daily). What is the total daily dose in mg?",
+      "A medication is given 125 mg q8h. What is the total daily dose in grams?"
+    ],
+    "syringe selection": [
+      "You need to administer 0.4 mL of a medication. Which syringe would provide the most accurate measurement: 1 mL, 3 mL, or 5 mL?",
+      "The calculated dose is 6.2 mL. Which syringe should the nurse select: 5 mL, 10 mL, or 20 mL?",
+      "A dose of 0.08 mL of a medication has been calculated. Which syringe is most appropriate: 1 mL tuberculin, 3 mL, or 5 mL?",
+      "You must draw up 1.7 mL of an IM injection. Which syringe size would be most appropriate and why?",
+      "A dose of 12 mL must be given via IV push. What is the minimum syringe size appropriate for this dose?"
+    ],
+    "label interpretation": [
+      "A label reads: \"Cefazolin 1 g/10 mL.\" A physician orders 500 mg. How many mL should be administered?",
+      "The label states: \"Morphine Sulfate 10 mg/mL.\" The order is for 4 mg IV. How many mL should the nurse draw up?",
+      "A label reads: \"Furosemide 40 mg/4 mL.\" The order is for 20 mg. How many mL should be given?",
+      "The vial label reads: \"Heparin 5000 units/mL.\" The order is for 2500 units subcutaneously. What volume should be administered?",
+      "A label reads: \"Metoclopramide 5 mg/mL, 2 mL vial.\" The order is for 7.5 mg. What volume should be drawn up, and is this dose within the vial?"
+    ],
+    "mixed/multi-step": [
+      "A patient weighing 68 kg is ordered 2 mg/kg of a medication. Available is a 100 mg/mL vial. What volume should be administered?",
+      "The order is 0.9 mg/kg of a medication. The patient weighs 55 kg. Available is a 25 mg/5 mL solution. How many mL should be given?",
+      "A child weighing 22 kg requires a dose of 15 mg/kg. The medication on hand is 500 mg per 10 mL. How many mL should be administered?",
+      "A patient is ordered dopamine at 8 mcg/kg/min. They weigh 75 kg. The solution is 800 mg in 500 mL. What rate should the pump be set to (mL/hr)?",
+      "The physician orders 1.5 g of a medication to be added to 100 mL of NS and infused over 30 minutes. The drug is available as 500 mg per 2 mL. How many mL of drug should be added to the bag? What is the infusion rate in mL/hr?"
+    ]
+  };
+
+  Object.entries(bank).forEach(([topic, prompts]) => {
+    prompts.forEach((prompt) => push(topic, prompt));
   });
 })();
 
@@ -3391,6 +3568,134 @@ function formatDecimal(x, places) {
     };
   });
 
+})();
+
+// NURS 3700 — Medication Math Test question bank.
+(function buildNurs3700MedicationMathTest() {
+  const course = COURSES.nurs3700;
+  if (!course || !course.exams || !course.exams.medicationMathTest) return;
+  const qs = course.exams.medicationMathTest.questions;
+  if (qs.length > 0) return;
+
+  const bank = [
+    { topic: "unit conversion", prompt: "Convert 2.5 g to milligrams (mg)." },
+    { topic: "unit conversion", prompt: "Convert 0.125 mg to micrograms (mcg)." },
+    { topic: "unit conversion", prompt: "A medication is ordered in grains. The order is for gr 1/4. How many milligrams is this? (Use 1 gr = 60 mg)" },
+    { topic: "unit conversion", prompt: "Convert 1800 mL to litres (L)." },
+    { topic: "unit conversion", prompt: "A patient weighs 154 lbs. What is their weight in kilograms? (Use 1 kg = 2.2 lbs)" },
+    { topic: "unit conversion", prompt: "Convert 0.5 L to millilitres (mL)." },
+    { topic: "unit conversion", prompt: "An infant weighs 3500 g. What is the weight in kilograms?" },
+    { topic: "unit conversion", prompt: "Convert 750 mcg to milligrams (mg)." },
+    { topic: "unit conversion", prompt: "A patient weighs 88 kg. What is their weight in pounds?" },
+    { topic: "unit conversion", prompt: "Convert 0.004 g to micrograms (mcg)." },
+
+    { topic: "oral medications — tablets and capsules", prompt: "The order is for 75 mg of medication. The tablets available are 25 mg each. How many tablets should be administered?" },
+    { topic: "oral medications — tablets and capsules", prompt: "A physician orders 1.5 g of a medication. On hand are 500 mg tablets. How many tablets should be given?" },
+    { topic: "oral medications — tablets and capsules", prompt: "The order reads 0.25 mg. Available tablets are 0.125 mg. How many tablets should the nurse administer?" },
+    { topic: "oral medications — tablets and capsules", prompt: "A patient is prescribed 600 mg of ibuprofen. The available tablets are 200 mg each. How many tablets should be given?" },
+    { topic: "oral medications — tablets and capsules", prompt: "The order is for 1 g of a medication. On hand are 250 mg capsules. How many capsules should be administered?" },
+    { topic: "oral medications — tablets and capsules", prompt: "A physician orders 45 mg of a medication. Available tablets are scored and come in 30 mg strength. How many tablets should be given?" },
+    { topic: "oral medications — tablets and capsules", prompt: "The order is for 0.4 mg. The medication on hand is 200 mcg per tablet. How many tablets should be administered?" },
+
+    { topic: "oral medications — liquids", prompt: "The order is for 125 mg of amoxicillin. The suspension on hand is 250 mg per 5 mL. How many mL should be administered?" },
+    { topic: "oral medications — liquids", prompt: "A physician orders 300 mg of a liquid medication. The concentration is 150 mg per 10 mL. How many mL should the nurse give?" },
+    { topic: "oral medications — liquids", prompt: "The order is for 7.5 mg of a medication. The solution available is 5 mg per mL. How many mL should be administered?" },
+    { topic: "oral medications — liquids", prompt: "A medication is ordered at 20 mg. Available is a solution of 10 mg per 2.5 mL. How many mL should be given?" },
+    { topic: "oral medications — liquids", prompt: "The order is for 0.1 mg of digoxin oral solution. The concentration available is 0.05 mg per mL. What volume should the nurse administer?" },
+    { topic: "oral medications — liquids", prompt: "A child is prescribed 100 mg of a medication. The suspension available is 125 mg per 5 mL. What volume should be given?" },
+    { topic: "oral medications — liquids", prompt: "The order reads 15 mg. On hand is a liquid containing 10 mg per 4 mL. How many mL should be administered?" },
+
+    { topic: "injectable medications", prompt: "A physician orders 40 mg of a medication for IM injection. Available is a vial containing 80 mg per 2 mL. What volume should be drawn up?" },
+    { topic: "injectable medications", prompt: "The order is for 0.4 mg of atropine. The vial contains 0.5 mg per mL. How many mL should be administered?" },
+    { topic: "injectable medications", prompt: "A medication order is for 75 mg. The vial is labeled 100 mg per 2 mL. What volume should be withdrawn?" },
+    { topic: "injectable medications", prompt: "The order is for 12.5 mg of a medication. On hand is a vial of 25 mg per mL. How many mL should the nurse prepare?" },
+    { topic: "injectable medications", prompt: "A physician orders 7500 units of heparin subcutaneously. The vial contains 10,000 units per mL. What volume should be administered?" },
+    { topic: "injectable medications", prompt: "The order is for 1.2 million units of penicillin. Available is a vial containing 600,000 units per mL. How many mL should be given?" },
+    { topic: "injectable medications", prompt: "An order reads 0.6 mg. The available solution contains 0.4 mg per 0.5 mL. What volume should be drawn up?" },
+
+    { topic: "reconstitution", prompt: "A vial contains 500 mg of powdered medication. The instructions say to add 9.3 mL of sterile water to yield 10 mL of solution. What is the resulting concentration in mg/mL?" },
+    { topic: "reconstitution", prompt: "You must reconstitute a 1 g vial by adding 3.4 mL of diluent to yield 4 mL of solution. What is the final concentration?" },
+    { topic: "reconstitution", prompt: "After reconstitution, a vial contains 250 mg per mL. The order is for 375 mg. What volume should be withdrawn?" },
+    { topic: "reconstitution", prompt: "A powdered antibiotic vial is reconstituted with 10 mL of sterile water to yield a concentration of 250 mg per 5 mL. How many mL are needed to deliver 750 mg?" },
+    { topic: "reconstitution", prompt: "You add 1.8 mL of diluent to a 500 mg vial, yielding 2 mL total. The order is for 300 mg. What volume should the nurse draw up?" },
+    { topic: "reconstitution", prompt: "A 2 g vial is reconstituted per the package insert, resulting in a concentration of 400 mg/mL. How many mL are needed for a 600 mg dose?" },
+    { topic: "reconstitution", prompt: "After reconstituting a vial, the concentration is 1000 mg per 3.8 mL. The order is for 250 mg. What volume should be administered?" },
+
+    { topic: "iv flow rates — mL/hr", prompt: "A physician orders 500 mL of NS to infuse over 4 hours. At what rate should the IV pump be set (mL/hr)?" },
+    { topic: "iv flow rates — mL/hr", prompt: "The order is to infuse 250 mL of D5W over 90 minutes. What is the infusion rate in mL/hr?" },
+    { topic: "iv flow rates — mL/hr", prompt: "A patient is to receive 3000 mL of IV fluid over 24 hours. What is the hourly rate?" },
+    { topic: "iv flow rates — mL/hr", prompt: "You must infuse 150 mL of an antibiotic over 45 minutes. What is the rate in mL/hr?" },
+    { topic: "iv flow rates — mL/hr", prompt: "A total of 2400 mL is ordered over 20 hours. What rate should the pump be set to?" },
+    { topic: "iv flow rates — mL/hr", prompt: "100 mL of a medication is to infuse over 20 minutes. What is the pump rate in mL/hr?" },
+    { topic: "iv flow rates — mL/hr", prompt: "The order reads: infuse 1 L of LR over 12 hours. What is the rate in mL/hr?" },
+
+    { topic: "iv flow rates — gtt/min (manual drip)", prompt: "Infuse 1000 mL of NS over 8 hours. The tubing drop factor is 20 gtt/mL. What is the flow rate in gtt/min?" },
+    { topic: "iv flow rates — gtt/min (manual drip)", prompt: "A patient is ordered 500 mL of D5W over 4 hours. The IV set has a drop factor of 15 gtt/mL. Calculate the gtt/min." },
+    { topic: "iv flow rates — gtt/min (manual drip)", prompt: "Infuse 250 mL over 6 hours using tubing with a drop factor of 60 gtt/mL. What is the rate in gtt/min?" },
+    { topic: "iv flow rates — gtt/min (manual drip)", prompt: "The order is to infuse 100 mL over 30 minutes with a 10 gtt/mL drop factor. Calculate the gtt/min." },
+    { topic: "iv flow rates — gtt/min (manual drip)", prompt: "A physician orders 750 mL over 5 hours. Drop factor is 15 gtt/mL. What is the flow rate in gtt/min?" },
+    { topic: "iv flow rates — gtt/min (manual drip)", prompt: "Infuse 200 mL over 2 hours. The tubing is a microdrop set (60 gtt/mL). What is the drip rate in gtt/min?" },
+    { topic: "iv flow rates — gtt/min (manual drip)", prompt: "A 1000 mL bag must infuse over 10 hours with a 20 gtt/mL set. Calculate the gtt/min." },
+
+    { topic: "weight-based dosing", prompt: "A patient weighs 80 kg. The order is for 2 mg/kg of a medication. What is the total dose in mg?" },
+    { topic: "weight-based dosing", prompt: "The prescribed dose is 0.1 mg/kg. The patient weighs 65 kg. What dose should be administered?" },
+    { topic: "weight-based dosing", prompt: "A child weighs 30 kg. The order is 25 mg/kg/day in 4 divided doses. What is the dose per administration?" },
+    { topic: "weight-based dosing", prompt: "The order is 15 mcg/kg. The patient weighs 70 kg. What is the required dose in mcg?" },
+    { topic: "weight-based dosing", prompt: "A medication is ordered at 1.5 mg/kg IV. The patient weighs 92 kg. What is the total dose in mg?" },
+    { topic: "weight-based dosing", prompt: "A child weighs 18 kg. The provider orders 20 mg/kg/day in 3 divided doses. What is each single dose?" },
+    { topic: "weight-based dosing", prompt: "The physician orders 0.05 mg/kg of a medication. The patient weighs 55 kg. What dose should be prepared?" },
+
+    { topic: "weight-based iv infusions", prompt: "A patient weighs 70 kg. The order is dopamine at 5 mcg/kg/min. The available solution is 400 mg in 250 mL. What rate should the IV pump be set to (mL/hr)?" },
+    { topic: "weight-based iv infusions", prompt: "The order is for nitroglycerin at 10 mcg/min. The solution available is 50 mg in 250 mL. What is the infusion rate in mL/hr?" },
+    { topic: "weight-based iv infusions", prompt: "A patient weighs 85 kg and is ordered a medication at 3 mcg/kg/min. The solution is 200 mg in 100 mL. What is the pump rate in mL/hr?" },
+    { topic: "weight-based iv infusions", prompt: "The physician orders dobutamine 7.5 mcg/kg/min. The patient weighs 60 kg. Available is 500 mg in 250 mL. What is the infusion rate in mL/hr?" },
+    { topic: "weight-based iv infusions", prompt: "A patient weighing 90 kg is ordered a medication at 0.1 mcg/kg/min. The solution concentration is 10 mg in 100 mL. What rate should the pump be set to (mL/hr)?" },
+
+    { topic: "infusion time", prompt: "A 500 mL bag is infusing at 125 mL/hr. How long will the bag last?" },
+    { topic: "infusion time", prompt: "1000 mL is infusing at 80 mL/hr. How many hours and minutes will it take to complete?" },
+    { topic: "infusion time", prompt: "A 250 mL bag is running at 50 mL/hr. How long will the infusion take, in hours and minutes?" },
+    { topic: "infusion time", prompt: "You hang a 100 mL bag at 150 mL/hr. Approximately how many minutes will it take to infuse?" },
+    { topic: "infusion time", prompt: "A 3000 mL bag is ordered at 125 mL/hr. When will it finish if started at 0800?" },
+
+    { topic: "safe dose verification — pediatric and adult", prompt: "A child weighs 25 kg. The order is 8 mg/kg/day. The safe range is 5–10 mg/kg/day. Is this a safe dose?" },
+    { topic: "safe dose verification — pediatric and adult", prompt: "An adult patient is prescribed 1500 mg/day of a medication in 3 divided doses. The maximum safe dose is 4 g/day. Is this safe? What is each dose?" },
+    { topic: "safe dose verification — pediatric and adult", prompt: "A child weighs 12 kg. The order is for 60 mg of a medication. The recommended dose is 2–4 mg/kg per dose. Is this safe?" },
+    { topic: "safe dose verification — pediatric and adult", prompt: "The safe dose range for a drug is 10–20 mg/kg/day. A patient weighing 40 kg is prescribed 600 mg/day in 3 divided doses. Is the daily dose within range? Is each dose within range?" },
+    { topic: "safe dose verification — pediatric and adult", prompt: "A child weighing 8 kg is ordered 40 mg of a medication. The recommended safe dose is 5 mg/kg per dose. Is this order safe? What action should the nurse take?" },
+    { topic: "safe dose verification — pediatric and adult", prompt: "A patient is prescribed 2 g of a medication per dose, four times daily. The package insert states the maximum daily dose is 6 g. Is this order safe? What should the nurse do?" },
+
+    { topic: "total daily dose and frequency", prompt: "A medication is ordered as 250 mg q6h (every 6 hours). What is the total daily dose?" },
+    { topic: "total daily dose and frequency", prompt: "The order reads 500 mg BID (twice daily). How many milligrams will the patient receive in 24 hours?" },
+    { topic: "total daily dose and frequency", prompt: "A patient is prescribed 100 mg TID (three times daily) for 7 days. What is the total amount of medication they will receive over the full course?" },
+    { topic: "total daily dose and frequency", prompt: "The order is 0.5 g QID (four times daily). What is the total daily dose in mg?" },
+    { topic: "total daily dose and frequency", prompt: "A medication is given 125 mg q8h. What is the total daily dose in grams?" },
+
+    { topic: "syringe selection", prompt: "You need to administer 0.4 mL of a medication. Which syringe would provide the most accurate measurement: 1 mL, 3 mL, or 5 mL?" },
+    { topic: "syringe selection", prompt: "The calculated dose is 6.2 mL. Which syringe should the nurse select: 5 mL, 10 mL, or 20 mL?" },
+    { topic: "syringe selection", prompt: "A dose of 0.08 mL of a medication has been calculated. Which syringe is most appropriate: 1 mL tuberculin, 3 mL, or 5 mL?" },
+    { topic: "syringe selection", prompt: "You must draw up 1.7 mL of an IM injection. Which syringe size would be most appropriate and why?" },
+    { topic: "syringe selection", prompt: "A dose of 12 mL must be given via IV push. What is the minimum syringe size appropriate for this dose?" },
+
+    { topic: "label interpretation", prompt: "A label reads: \"Cefazolin 1 g/10 mL.\" A physician orders 500 mg. How many mL should be administered?" },
+    { topic: "label interpretation", prompt: "The label states: \"Morphine Sulfate 10 mg/mL.\" The order is for 4 mg IV. How many mL should the nurse draw up?" },
+    { topic: "label interpretation", prompt: "A label reads: \"Furosemide 40 mg/4 mL.\" The order is for 20 mg. How many mL should be given?" },
+    { topic: "label interpretation", prompt: "The vial label reads: \"Heparin 5000 units/mL.\" The order is for 2500 units subcutaneously. What volume should be administered?" },
+    { topic: "label interpretation", prompt: "A label reads: \"Metoclopramide 5 mg/mL, 2 mL vial.\" The order is for 7.5 mg. What volume should be drawn up, and is this dose within the vial?" },
+
+    { topic: "mixed/multi-step", prompt: "A patient weighing 68 kg is ordered 2 mg/kg of a medication. Available is a 100 mg/mL vial. What volume should be administered?" },
+    { topic: "mixed/multi-step", prompt: "The order is 0.9 mg/kg of a medication. The patient weighs 55 kg. Available is a 25 mg/5 mL solution. How many mL should be given?" },
+    { topic: "mixed/multi-step", prompt: "A child weighing 22 kg requires a dose of 15 mg/kg. The medication on hand is 500 mg per 10 mL. How many mL should be administered?" },
+    { topic: "mixed/multi-step", prompt: "A patient is ordered dopamine at 8 mcg/kg/min. They weigh 75 kg. The solution is 800 mg in 500 mL. What rate should the pump be set to (mL/hr)?" },
+    { topic: "mixed/multi-step", prompt: "The physician orders 1.5 g of a medication to be added to 100 mL of NS and infused over 30 minutes. The drug is available as 500 mg per 2 mL. How many mL of drug should be added to the bag? What is the infusion rate in mL/hr?" }
+  ];
+
+  bank.forEach((item, i) => {
+    qs.push({
+      id: `n3700-mmt-${String(i + 1).padStart(3, "0")}`,
+      topic: item.topic,
+      prompt: item.prompt
+    });
+  });
 })();
 
 // Normalize IDs to numeric-only scheme in one continuous sequence.

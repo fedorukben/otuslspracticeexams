@@ -159,22 +159,70 @@
   }
 
   function sampleForExam(pool, n) {
+    const topicCap = uniqueTopicCount(pool);
+    const cappedN = Math.min(n, topicCap || n);
+    let selected;
+
     if (examId === "final") {
-      return sampleFinalComposite(n);
+      selected = sampleFinalComposite(cappedN);
+      return enforceUniqueTopics(selected, pool, cappedN);
     }
     if (courseId === "math1020u" && examId === "readiness") {
-      return sampleEvenByTopic(pool, n);
+      selected = sampleEvenByTopic(pool, cappedN);
+      return enforceUniqueTopics(selected, pool, cappedN);
     }
     if (courseId === "stat2800u" && examId === "midterm1") {
-      return sampleEvenByTopic(pool, n);
+      selected = sampleEvenByTopic(pool, cappedN);
+      return enforceUniqueTopics(selected, pool, cappedN);
     }
     if (courseId === "busi1915u" && examId === "midterm1") {
-      return sampleEvenByTopic(pool, n);
+      selected = sampleEvenByTopic(pool, cappedN);
+      return enforceUniqueTopics(selected, pool, cappedN);
     }
     if (courseId === "math1020u" && examId === "midterm1") {
-      return sampleMath1020Midterm1(pool, n);
+      selected = sampleMath1020Midterm1(pool, cappedN);
+      return enforceUniqueTopics(selected, pool, cappedN);
     }
-    return sampleWeighted(pool, n);
+    selected = sampleWeighted(pool, cappedN);
+    return enforceUniqueTopics(selected, pool, cappedN);
+  }
+
+  function topicKey(question) {
+    return String((question && question.topic) || "other").trim().toLowerCase();
+  }
+
+  function uniqueTopicCount(questions) {
+    if (!Array.isArray(questions) || questions.length === 0) return 0;
+    const seen = new Set();
+    questions.forEach((q) => seen.add(topicKey(q)));
+    return seen.size;
+  }
+
+  function enforceUniqueTopics(selected, pool, target) {
+    const topicSeen = new Set();
+    const unique = [];
+    const targetCount = Math.max(0, target || 0);
+
+    sample(selected || [], (selected || []).length).forEach((q) => {
+      const key = topicKey(q);
+      if (!topicSeen.has(key)) {
+        unique.push(q);
+        topicSeen.add(key);
+      }
+    });
+
+    if (unique.length < targetCount) {
+      sample(pool || [], (pool || []).length).forEach((q) => {
+        if (unique.length >= targetCount) return;
+        const key = topicKey(q);
+        if (!topicSeen.has(key)) {
+          unique.push(q);
+          topicSeen.add(key);
+        }
+      });
+    }
+
+    return unique.slice(0, targetCount);
   }
 
   function sampleMath1020Midterm1(questions, n) {
